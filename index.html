@@ -282,20 +282,30 @@
             btn.innerText = "VERIFYING...";
             status.classList.remove('hidden');
             
+            // ✅ Open a new tab immediately (so popup blockers don't block it)
+            const downloadWindow = window.open('about:blank', '_blank');
+
             setTimeout(() => {
                 btn.innerText = "STARTING DOWNLOAD...";
-                
+
                 let downloadLink = document.getElementById('secure-overlay').getAttribute("data-download-link");
-                
+
                 // Smart Direct Download: Auto-convert Google Drive view links to direct download links for better UX
                 if (downloadLink && downloadLink.includes('drive.google.com/file/d/')) {
                     const fileId = downloadLink.split('/d/')[1].split('/')[0];
                     downloadLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
                 }
 
-                if (downloadLink) window.location.href = downloadLink;
+                if (downloadLink) {
+                    // If the popup was blocked, fallback to same-tab redirect
+                    if (downloadWindow && !downloadWindow.closed) {
+                        downloadWindow.location.href = downloadLink;
+                    } else {
+                        window.location.href = downloadLink;
+                    }
+                }
             }, 2000);
-        }
+}
 
         // Terminal Simulation
         const terminalBody = document.querySelector('#terminal-body');
