@@ -57,6 +57,33 @@
             filter: blur(40px);
             z-index: -1;
         }
+
+        .ticker-wrap { position: relative; overflow: hidden; border: 1px solid rgba(34,197,94,0.25); background: rgba(2, 10, 2, 0.75); box-shadow: inset 0 0 20px rgba(34,197,94,0.05), 0 0 20px rgba(34,197,94,0.08); }
+        .ticker-track { display: flex; width: max-content; animation: ticker 28s linear infinite; }
+        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-item { white-space: nowrap; padding-right: 3rem; color: rgba(74, 222, 128, 0.95); text-shadow: 0 0 8px rgba(34,197,94,0.25); }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        .file-list-card { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 77, 77, 0.16); }
+        .file-list-item {
+            width: 100%;
+            text-align: left;
+            padding: 0.9rem 1rem;
+            border: 1px solid rgba(255, 77, 77, 0.12);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.2s ease;
+        }
+        .file-list-item:hover {
+            border-color: rgba(255, 77, 77, 0.35);
+            background: rgba(255, 77, 77, 0.08);
+            transform: translateX(4px);
+        }
+        .file-list-item.active {
+            border-color: rgba(255, 77, 77, 0.6);
+            background: linear-gradient(90deg, rgba(255, 77, 77, 0.18), rgba(255, 77, 77, 0.05));
+            box-shadow: 0 0 18px rgba(255, 77, 77, 0.15);
+        }
+
     </style>
 </head>
 <body class="text-slate-200 overflow-x-hidden grid-bg">
@@ -103,8 +130,8 @@
         </div>
         
         <div class="flex flex-col md:flex-row gap-6 reveal" style="transition-delay: 0.4s;">
-            <a href="#download" class="bg-red-600 text-white px-12 py-5 rounded-sm font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all transform hover:-translate-y-1 shadow-[0_0_30px_rgba(220,38,38,0.4)]">
-                Get Firmware Tool
+            <a id="hero-download-btn" href="#download" class="bg-red-600 text-white px-12 py-5 rounded-sm font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all transform hover:-translate-y-1 shadow-[0_0_30px_rgba(220,38,38,0.4)] break-words text-center max-w-full">
+                Download Selected File
             </a>
             <a href="https://aosunlocker.com" class="border border-rose-500/50 text-rose-400 px-12 py-5 rounded-sm font-bold text-sm uppercase tracking-widest hover:bg-rose-500/10 transition">
                 AOSUnlocker.com
@@ -116,6 +143,19 @@
             <div class="flex flex-col items-center"><span class="text-red-500 mb-2">Latency</span><span>0.02ms</span></div>
             <div class="flex flex-col items-center"><span class="text-red-500 mb-2">Uptime</span><span>99.9%</span></div>
             <div class="flex flex-col items-center"><span class="text-red-500 mb-2">Nodes</span><span>Global</span></div>
+        </div>
+    </section>
+
+
+    <!-- Live Feed -->
+    <section class="px-6 -mt-8 mb-10 relative z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="ticker-wrap rounded-sm px-0 py-3 mono text-[11px] uppercase tracking-[0.25em]">
+                <div id="latest-marquee" class="ticker-track">
+                    <div class="ticker-item">[ LIVE FEED ] LOADING LATEST FILES...</div>
+                    <div class="ticker-item">[ LIVE FEED ] LOADING LATEST FILES...</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -174,8 +214,8 @@
                     </div>
                 </div>
                 <div class="mt-8 md:mt-0 flex flex-col items-center">
-                    <button id="download-btn" onclick="startSecureDownload()" class="w-full md:w-auto bg-red-600 text-white px-12 py-4 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-white hover:text-black transition shadow-[0_0_20px_rgba(220,38,38,0.3)] glitch">
-                        Initialize Download
+                    <button id="download-btn" onclick="startSecureDownload()" class="w-full md:w-auto bg-red-600 text-white px-12 py-4 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-white hover:text-black transition shadow-[0_0_20px_rgba(220,38,38,0.3)] glitch break-words text-center max-w-full">
+                        Download Selected File
                     </button>
                     <div id="scan-status" class="hidden mt-4 text-[10px] mono text-cyan-500 animate-pulse">
                         [SYSTEM] SCANNING FOR THREATS... 100% CLEAN
@@ -191,6 +231,24 @@
             </div>
         </div>
     </section>
+
+    <!-- File List Section -->
+    <section id="file-list-section" class="pb-20 px-6">
+        <div class="max-w-4xl mx-auto glass rog-frame p-8 md:p-10 reveal">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+                <div>
+                    <div class="text-[10px] text-red-500 uppercase tracking-[0.4em] font-bold mb-2 mono">Link Directory</div>
+                    <h3 class="text-3xl font-bold tracking-tight uppercase">Available Download List</h3>
+                </div>
+                <div class="text-slate-500 mono text-[11px] uppercase tracking-[0.2em]">Click one file to load into the secure panel</div>
+            </div>
+
+            <div id="file-list-container" class="space-y-3">
+                <div class="file-list-card rounded-sm p-4 mono text-xs text-slate-400 uppercase tracking-widest">No file list loaded yet.</div>
+            </div>
+        </div>
+    </section>
+
     <script>
         // Matrix Rain Effect
         const canvas = document.getElementById('matrix-canvas');
@@ -236,41 +294,216 @@
             }, 500);
         }, 3000);
 
-        // Fetch config.json or URL parameters and update content
-        function updateDownloadInfo() {
+
+        const DEFAULT_FILE_LIST = [
+            { name: "NLA-LX2P 9.0.0.184(C185E6R2P5)_Firmware_Magic OS 9.0_0501AHWG", size: "5.10 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "NLA-LX2P" },
+            { name: "NLA-L32P 9.0.0.184(C185E6R2P5)_Firmware_Magic OS 9.0_0501AHWG", size: "5.40 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "NLA-L32P" },
+            { name: "NLA-L32 9.0.0.186(C185E6R2P5)_Firmware_Magic OS 9.0_0501AHWF", size: "5.40 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "NLA-L32" },
+            { name: "MTN-N21 9.0.0.145(C185E1R2P4)_Firmware_Magic OS 9.0_0501AJAC", size: "7.40 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "MTN-N21" },
+            { name: "NLA-LX2 9.0.0.186(C185E6R2P5)_Firmware_Magic OS 9.0_0501AHWF", size: "5.40 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "NLA-LX2" },
+            { name: "BKQ-N49 10.0.0.138(C185E3R105P2)_Firmware_MagicOS 10.0_0501AJFG", size: "8.50 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "BKQ-N49" },
+            { name: "ELP-NX9 9.0.0.203(C185E7R3P1)_Firmware_Magic OS 9.0_0501AEDJ", size: "7.40 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "ELP-NX9" },
+            { name: "ELP-N39 9.0.0.203(C185E7R3P1)_Firmware_Magic OS 9.0_0501AEDJ", size: "7.40 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "ELP-N39" },
+            { name: "FRI-N39 10.0.0.119(C185E3R4P2)_Firmware_MagicOS 10.0_0501ABPE", size: "7.10 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "FRI-N39" },
+            { name: "FCP-N49 10.0.0.137(C185E3R3P2)_Firmware_MagicOS 10.0_0501AERE", size: "8.50 GB", type: "FIRMWARE", link: "", date: "22-01-2026", model: "FCP-N49" }
+        ];
+
+        let currentFileList = [];
+
+        function buildDriveViewLink(id) {
+            return `https://drive.google.com/file/d/${id}/view?usp=sharing`;
+        }
+
+        function inferTypeFromName(name = "") {
+            const ext = (name.split('.').pop() || "").toUpperCase();
+            if (!ext || ext === name.toUpperCase()) return "ARCHIVE";
+            const map = { ZIP: "ARCHIVE", RAR: "ARCHIVE", BIN: "BINARY", IMG: "IMAGE", PKG: "PACKAGE", EXE: "EXECUTABLE", TXT: "TEXT" };
+            return map[ext] || ext;
+        }
+
+        function normalizeFileEntry(file, fallbackIndex = 0) {
+            const safeName = (file?.name || `AOS FILE ${fallbackIndex + 1}`).trim();
+            const safeSize = (file?.size || "UNKNOWN").trim();
+            const safeType = (file?.type || inferTypeFromName(safeName)).trim();
+            let safeLink = (file?.link || "").trim();
+            const safeId = (file?.id || "").trim();
+            const safeDate = (file?.date || "COMING SOON").trim();
+            const safeModel = (file?.model || safeName.split(' ')[0] || "UNKNOWN").trim();
+
+            if (!safeLink && safeId) safeLink = buildDriveViewLink(safeId);
+
+            return { name: safeName, size: safeSize, type: safeType, link: safeLink, id: safeId, date: safeDate, model: safeModel };
+        }
+
+        function shortenCtaLabel(name = "") {
+            const clean = name.trim();
+            if (!clean) return "Download Selected File";
+            return clean.length > 44 ? clean.slice(0, 41) + "..." : clean;
+        }
+
+        function updateActionLabels(fileName) {
+            const cta = shortenCtaLabel(fileName);
+            const heroBtn = document.getElementById('hero-download-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            if (heroBtn) heroBtn.textContent = cta;
+            if (downloadBtn) downloadBtn.textContent = cta;
+        }
+
+        function setActiveFile(file) {
+            const normalized = normalizeFileEntry(file);
+            document.getElementById('file-name-display').innerText = normalized.name;
+            document.getElementById('file-size-display').innerText = `SIZE: ${normalized.size}`;
+            document.getElementById('file-type-display').innerText = `TYPE: ${normalized.type}`;
+            document.getElementById('secure-overlay').setAttribute("data-download-link", normalized.link || "");
+            updateActionLabels(normalized.name);
+
+            document.querySelectorAll('.file-list-item').forEach((btn) => {
+                btn.classList.toggle('active', btn.dataset.fileName === normalized.name);
+            });
+        }
+
+        function renderFileList(files) {
+            const container = document.getElementById('file-list-container');
+            if (!container) return;
+
+            if (!files.length) {
+                container.innerHTML = '<div class="file-list-card rounded-sm p-4 mono text-xs text-slate-400 uppercase tracking-widest">No file list available.</div>';
+                return;
+            }
+
+            container.innerHTML = files.map((file, index) => `
+                <button type="button"
+                    class="file-list-item rounded-sm mono active:scale-[0.99] ${index === 0 ? 'active' : ''}"
+                    data-file-name="${file.name.replace(/"/g, '&quot;')}"
+                    data-index="${index}">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                        <div>
+                            <div class="text-white font-bold text-sm break-all">${file.name}</div>
+                            <div class="mt-2 text-[10px] uppercase tracking-[0.18em] text-slate-500">${file.model} :: ${file.date}</div>
+                        </div>
+                        <div class="text-left md:text-right text-[10px] uppercase tracking-[0.25em] text-red-400">
+                            <div>${file.size}</div>
+                            <div class="mt-1 text-slate-500">${file.link ? file.type : 'LINK SOON'}</div>
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+
+            container.querySelectorAll('.file-list-item').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const idx = Number(btn.dataset.index);
+                    setActiveFile(currentFileList[idx]);
+                    document.getElementById('download').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            });
+        }
+
+        function renderMarquee(files) {
+            const marquee = document.getElementById('latest-marquee');
+            if (!marquee) return;
+            const items = (files.length ? files : DEFAULT_FILE_LIST).map((file, i) =>
+                `[ NEW_${String(i + 1).padStart(2, '0')} ] ${file.name} :: ${file.size} :: ${file.type}`
+            );
+            const html = items.concat(items).map(text => `<div class="ticker-item">${text}</div>`).join('');
+            marquee.innerHTML = html;
+        }
+
+        function parseDataPayload() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const raw = urlParams.get('data');
+            if (!raw) return null;
+            try {
+                const decoded = decodeURIComponent(escape(atob(raw)));
+                const parsed = JSON.parse(decoded);
+                return parsed && typeof parsed === 'object' ? parsed : null;
+            } catch (error) {
+                console.error('Invalid data payload:', error);
+                return null;
+            }
+        }
+
+        function getUrlSelectedFile() {
             const urlParams = new URLSearchParams(window.location.search);
             const paramName = urlParams.get('name');
             const paramSize = urlParams.get('size');
             const paramLink = urlParams.get('link');
-    const paramId   = urlParams.get('id');
+            const paramId = urlParams.get('id');
 
-    // ✅ Recommended: use ?id=<GOOGLE_DRIVE_FILE_ID> so you can share without URL-encoding
-    // If link is not provided but id is, build a standard Drive view URL.
-    let finalLink = paramLink;
-    if (!finalLink && paramId) {
-        finalLink = `https://drive.google.com/file/d/${paramId}/view?usp=sharing`;
-    }
+            let finalLink = paramLink;
+            if (!finalLink && paramId) finalLink = buildDriveViewLink(paramId);
 
             if (paramName || paramSize || finalLink) {
-                // Priority 1: URL Parameters (Fastest for single shares)
-                if (paramName) document.getElementById('file-name-display').innerText = paramName;
-                if (paramSize) document.getElementById('file-size-display').innerText = `SIZE: ${paramSize}`;
-                if (finalLink) document.getElementById('secure-overlay').setAttribute("data-download-link", finalLink);
-            } else {
-                // Priority 2: config.json (Default fallback)
-                fetch('config.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('file-name-display').innerText = data.fileName;
-                        const sizeSpan = document.getElementById('file-size-display');
-                        const typeSpan = document.getElementById('file-type-display');
-                        if (sizeSpan && data.fileSize) sizeSpan.innerText = `SIZE: ${data.fileSize}`;
-                        if (typeSpan && data.fileType) typeSpan.innerText = `TYPE: ${data.fileType}`;
-                        document.getElementById('secure-overlay').setAttribute("data-download-link", data.downloadLink);
-                    })
-                    .catch(error => console.error('Error fetching config.json:', error));
+                return normalizeFileEntry({
+                    name: paramName || document.getElementById('file-name-display').innerText,
+                    size: paramSize || document.getElementById('file-size-display').innerText.replace(/^SIZE:\s*/i, ''),
+                    type: inferTypeFromName(paramName || document.getElementById('file-name-display').innerText),
+                    link: finalLink,
+                    id: paramId || ""
+                });
             }
+            return null;
         }
+
+        function buildListFromConfig(data) {
+            const extraFiles = Array.isArray(data?.fileList) ? data.fileList.map(normalizeFileEntry) : [];
+            const configPrimary = normalizeFileEntry({
+                name: data?.fileName || extraFiles[0]?.name,
+                size: data?.fileSize || extraFiles[0]?.size,
+                type: data?.fileType || extraFiles[0]?.type,
+                link: data?.downloadLink || extraFiles[0]?.link,
+                id: data?.id || extraFiles[0]?.id,
+                model: data?.model || extraFiles[0]?.model,
+                date: data?.date || extraFiles[0]?.date
+            });
+
+            return [configPrimary, ...extraFiles].filter((file, index, arr) =>
+                file.name && arr.findIndex(f => f.name === file.name) === index
+            );
+        }
+
+        // Fetch config.json or URL parameters and update content
+        function updateDownloadInfo() {
+            const payloadData = parseDataPayload();
+            if (payloadData) {
+                currentFileList = buildListFromConfig(payloadData);
+                if (!currentFileList.length) currentFileList = DEFAULT_FILE_LIST.map(normalizeFileEntry);
+                setActiveFile(currentFileList[0]);
+                renderFileList(currentFileList);
+                renderMarquee(currentFileList);
+                return;
+            }
+
+            const selectedFromUrl = getUrlSelectedFile();
+            if (selectedFromUrl) {
+                currentFileList = [selectedFromUrl, ...DEFAULT_FILE_LIST.filter(file => file.name !== selectedFromUrl.name).map(normalizeFileEntry)];
+                setActiveFile(selectedFromUrl);
+                renderFileList(currentFileList);
+                renderMarquee(currentFileList);
+                return;
+            }
+
+            fetch('config.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('config.json not found');
+                    return response.json();
+                })
+                .then(data => {
+                    currentFileList = buildListFromConfig(data);
+                    if (!currentFileList.length) currentFileList = DEFAULT_FILE_LIST.map(normalizeFileEntry);
+                    setActiveFile(currentFileList[0]);
+                    renderFileList(currentFileList);
+                    renderMarquee(currentFileList);
+                })
+                .catch(error => {
+                    console.error('Error fetching config.json:', error);
+                    currentFileList = DEFAULT_FILE_LIST.map(normalizeFileEntry);
+                    setActiveFile(currentFileList[0]);
+                    renderFileList(currentFileList);
+                    renderMarquee(currentFileList);
+                });
+        }
+
+
         updateDownloadInfo();
 
         // Secure Download Simulation
@@ -303,6 +536,11 @@
                     } else {
                         window.location.href = downloadLink;
                     }
+                } else {
+                    if (downloadWindow && !downloadWindow.closed) downloadWindow.close();
+                    btn.innerText = "LINK NOT READY";
+                    status.classList.remove('hidden');
+                    status.textContent = `[SYSTEM] LINK FOR ${currentFile} WILL BE ADDED SOON`;
                 }
             }, 2000);
 }
@@ -347,7 +585,7 @@
 
     <!-- Footer -->
     <footer class="py-12 px-6 border-t border-red-500/10 text-center">
-        <p class="text-slate-600 text-xs uppercase tracking-[0.5em] mono">&copy; 2024 AOSUNLOCKER_SYSTEMS</p>
+        <p class="text-slate-600 text-xs uppercase tracking-[0.5em] mono">&copy; 2026 AOSUNLOCKER_SYSTEMS</p>
         <div class="flex justify-center space-x-8 mt-6 text-[10px] uppercase tracking-widest text-slate-500 font-bold">
             <a href="#" class="hover:text-white transition">Terms</a>
             <a href="#" class="hover:text-white transition">Privacy</a>
