@@ -58,11 +58,45 @@
             z-index: -1;
         }
 
-        .ticker-wrap { position: relative; overflow: hidden; border: 1px solid rgba(34,197,94,0.25); background: rgba(2, 10, 2, 0.75); box-shadow: inset 0 0 20px rgba(34,197,94,0.05), 0 0 20px rgba(34,197,94,0.08); }
-        .ticker-track { display: flex; width: max-content; animation: ticker 28s linear infinite; }
-        .ticker-track:hover { animation-play-state: paused; }
-        .ticker-item { white-space: nowrap; padding-right: 3rem; color: rgba(74, 222, 128, 0.95); text-shadow: 0 0 8px rgba(34,197,94,0.25); }
-        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .terminal-feed {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(34,197,94,0.25);
+            background: linear-gradient(180deg, rgba(3, 10, 6, 0.92), rgba(2, 6, 4, 0.88));
+            box-shadow: inset 0 0 24px rgba(34,197,94,0.06), 0 0 20px rgba(34,197,94,0.08);
+        }
+        .terminal-feed::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 28%);
+            pointer-events: none;
+        }
+        .terminal-line {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            color: rgba(74, 222, 128, 0.95);
+            text-shadow: 0 0 8px rgba(34,197,94,0.18);
+            opacity: 0;
+            transform: translateY(8px);
+            animation: terminalFade 0.45s ease forwards;
+        }
+        .terminal-prompt { color: rgba(74, 222, 128, 0.8); flex: 0 0 auto; }
+        .terminal-content { flex: 1; min-width: 0; word-break: break-word; }
+        .terminal-cursor {
+            display: inline-block;
+            width: 0.6em;
+            color: rgba(74, 222, 128, 0.9);
+            animation: blink 1s steps(1) infinite;
+        }
+        @keyframes terminalFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
 
         .file-list-card { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 77, 77, 0.16); }
         .file-list-item {
@@ -147,13 +181,19 @@
     </section>
 
 
-    <!-- Live Feed -->
+    <!-- Terminal Feed -->
     <section class="px-6 -mt-8 mb-10 relative z-10">
         <div class="max-w-6xl mx-auto">
-            <div class="ticker-wrap rounded-sm px-0 py-3 mono text-[11px] uppercase tracking-[0.25em]">
-                <div id="latest-marquee" class="ticker-track">
-                    <div class="ticker-item">[ LIVE FEED ] LOADING LATEST FILES...</div>
-                    <div class="ticker-item">[ LIVE FEED ] LOADING LATEST FILES...</div>
+            <div class="terminal-feed rounded-sm p-4 md:p-5 mono">
+                <div class="flex items-center justify-between gap-3 border-b border-emerald-500/15 pb-3 mb-4">
+                    <div class="text-[10px] uppercase tracking-[0.35em] text-emerald-400">Live Update Terminal</div>
+                    <div class="text-[10px] uppercase tracking-[0.28em] text-slate-500">Latest firmware feed</div>
+                </div>
+                <div id="latest-terminal-feed" class="space-y-3 text-[11px] uppercase tracking-[0.18em]">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">&gt;</span>
+                        <span class="terminal-content">Loading latest files<span class="terminal-cursor">_</span></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -399,13 +439,27 @@
         }
 
         function renderMarquee(files) {
-            const marquee = document.getElementById('latest-marquee');
-            if (!marquee) return;
-            const items = (files.length ? files : DEFAULT_FILE_LIST).map((file, i) =>
-                `[ NEW_${String(i + 1).padStart(2, '0')} ] ${file.name} :: ${file.size} :: ${file.type}`
-            );
-            const html = items.concat(items).map(text => `<div class="ticker-item">${text}</div>`).join('');
-            marquee.innerHTML = html;
+            const feed = document.getElementById('latest-terminal-feed');
+            if (!feed) return;
+            const source = (files.length ? files : DEFAULT_FILE_LIST).slice(0, 6);
+            const lines = source.map((file, i) => {
+                const status = file.link ? 'LINK READY' : 'LINK SOON';
+                return {
+                    delay: i * 0.08,
+                    text: `[${String(i + 1).padStart(2, '0')}] ${file.model} :: ${file.size} :: ${status}`
+                };
+            });
+            feed.innerHTML = lines.map(line => `
+                <div class="terminal-line" style="animation-delay:${line.delay}s">
+                    <span class="terminal-prompt">&gt;</span>
+                    <span class="terminal-content">${line.text}</span>
+                </div>
+            `).join('') + `
+                <div class="terminal-line" style="animation-delay:${lines.length * 0.08}s">
+                    <span class="terminal-prompt">&gt;</span>
+                    <span class="terminal-content">SYSTEM READY FOR SECURE DOWNLOAD<span class="terminal-cursor">_</span></span>
+                </div>
+            `;
         }
 
         function parseDataPayload() {
