@@ -82,6 +82,36 @@
       gap: 12px;
       flex-wrap: wrap;
     }
+    .nav-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--text);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .navbar.menu-open .nav-toggle span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .navbar.menu-open .nav-toggle span:nth-child(2) {
+      opacity: 0;
+    }
+    .navbar.menu-open .nav-toggle span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
     .nav-link {
       font-size: 14px;
       font-weight: 700;
@@ -212,7 +242,7 @@
       line-height: 0.98;
       letter-spacing: -2px;
       max-width: 610px;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
     .hero h1 em { color: var(--gold); font-style: normal; }
     .hero p {
@@ -283,7 +313,7 @@
       color: #e7efff;
       font-size: 12px;
       font-weight: 700;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
     .showcase-main img {
       width: 100%;
@@ -339,7 +369,7 @@
       background: var(--surface);
       border: 1px solid #e3ebf5;
       border-radius: 20px;
-      padding: 20px;
+      padding: 22px 20px 20px;
       box-shadow: 0 10px 28px rgba(12, 34, 60, 0.06);
     }
     .download-feature,
@@ -347,13 +377,13 @@
       display: grid;
       gap: 14px;
     }
-    .download-feature { grid-template-columns: 1.05fr 0.95fr; margin-bottom: 14px; }
+    .download-feature { grid-template-columns: 1.05fr 0.95fr; margin-bottom: 18px; align-items: stretch; }
     .workflow { grid-template-columns: 0.98fr 1.02fr; }
     .download-main {
       background: linear-gradient(135deg, #08111f, #0d2345);
       color: #fff;
       border-radius: 20px;
-      padding: 20px;
+      padding: 22px 20px 20px;
       min-height: 100%;
     }
     .download-main h3 {
@@ -364,7 +394,7 @@
     }
     .download-main p {
       color: rgba(255,255,255,0.75);
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       font-size: 14px;
       line-height: 1.7;
     }
@@ -376,6 +406,36 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+    }
+    .download-meta { margin-bottom: 18px; }
+    .download-actions { margin-top: 2px; gap: 12px; }
+    .download-password {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 16px;
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.09);
+    }
+    .download-password strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 13px;
+      color: #ffffff;
+    }
+    .download-password span {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .password-link {
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
     }
     .download-chip,
     .support-notes span {
@@ -393,7 +453,7 @@
       background: rgba(13, 159, 110, 0.08);
       color: var(--success);
     }
-    .download-side { display: grid; gap: 10px; }
+    .download-side { display: grid; gap: 12px; }
     .download-stat,
     .gateway-item,
     .workflow-steps li,
@@ -449,7 +509,7 @@
       border-radius: 16px;
       display: grid;
       place-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       background: rgba(10, 92, 255, 0.09);
       color: var(--blue);
       font-weight: 900;
@@ -467,7 +527,7 @@
       list-style: none;
       display: grid;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
     .service-points li {
       font-size: 13px;
@@ -486,7 +546,7 @@
       left: 0;
       top: 7px;
     }
-    .trust-quote { font-size: 14px; color: #334257; margin-bottom: 14px; }
+    .trust-quote { font-size: 14px; color: #334257; margin-bottom: 18px; }
     .trust-meta strong { display: block; font-size: 14px; }
     .trust-meta span { color: var(--muted); font-size: 12px; }
     .workflow-steps {
@@ -623,7 +683,7 @@
     }
     .footer h4 {
       color: #9dc2ff;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       font-size: 16px;
     }
     .footer p,
@@ -661,13 +721,47 @@
 
     @media (max-width: 760px) {
       .nav-inner,
-      .nav-actions,
       .hero-cta,
       .request-actions,
       .download-actions,
+      .download-password,
       .cta-actions {
         flex-direction: column;
         align-items: stretch;
+      }
+      .nav-inner {
+        gap: 12px;
+        padding: 12px 0;
+      }
+      .brand {
+        flex: 1;
+        min-width: 0;
+      }
+      .brand-copy strong {
+        font-size: 18px;
+      }
+      .brand-copy span {
+        font-size: 11px;
+        letter-spacing: 1.1px;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        flex-shrink: 0;
+      }
+      .nav-actions {
+        display: none;
+        width: 100%;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .navbar.menu-open .nav-actions {
+        display: flex;
+      }
+      .nav-link {
+        padding: 8px 0;
       }
       .hero,
       .download-shell,
@@ -682,6 +776,26 @@
       .hero-stats,
       .showcase-thumbs,
       .form-grid { grid-template-columns: 1fr 1fr; }
+      .download-feature {
+        gap: 12px;
+      }
+      .download-main {
+        padding: 18px 16px;
+      }
+      .download-main h3 {
+        font-size: 22px;
+      }
+      .download-main p {
+        font-size: 13px;
+        line-height: 1.65;
+      }
+      .download-chip {
+        font-size: 10px;
+        padding: 8px 10px;
+      }
+      .download-password {
+        padding: 12px 13px;
+      }
       .series-list { columns: 1; }
       .btn,
       .btn-primary,
@@ -696,6 +810,11 @@
       .form-grid { grid-template-columns: 1fr; }
       .container { width: min(calc(100% - 20px), var(--max)); }
       .hero { border-radius: 24px; }
+      .download-shell { padding: 16px; }
+      .download-main h3 { font-size: 20px; }
+      .download-meta { gap: 8px; }
+      .download-chip { width: 100%; justify-content: center; text-align: center; }
+      .section-head p { font-size: 13px; }
     }</style>
 </head>
 <body>
@@ -708,7 +827,12 @@
           <span>Official Honor & Magic Service Gateway</span>
         </div>
       </div>
-      <div class="nav-actions">
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navActions">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-actions" id="navActions">
         <a href="#services" class="nav-link">Services</a>
         <a href="#models" class="nav-link">Supported Models</a>
         <a href="#request" class="nav-link">Request</a>
@@ -813,8 +937,15 @@
               <span class="download-chip" id="featuredDate">Date: -</span>
             </div>
             <div class="download-actions">
-              <a href="#" class="btn btn-light" id="featuredDownloadBtn" target="_blank" rel="noopener noreferrer">Open Package</a>
-              <a href="https://wa.me/6282234370999" class="btn btn-outline-light" id="featuredSupportBtn">Talk To Support</a>
+              <a href="#" class="btn btn-light" id="featuredDownloadBtn" target="_blank" rel="noopener noreferrer">Download Now</a>
+              <a href="https://wa.me/6282234370999" class="btn btn-outline-light" id="featuredSupportBtn">Need Help?</a>
+            </div>
+            <div class="download-password">
+              <div>
+                <strong>File Password</strong>
+                <span>Protected package? Click below to request the password directly on WhatsApp.</span>
+              </div>
+              <a href="https://wa.me/6282234370999" class="password-link" id="featuredPasswordBtn">Request Password</a>
             </div>
           </div>
           <div class="download-side">
@@ -1233,14 +1364,24 @@
       document.getElementById('featuredDate').textContent = 'Date: ' + featured.date;
       document.getElementById('featuredSource').textContent = featured.link ? 'Ready to open from this branded landing page' : 'Link is still pending in the shared data';
 
+      const waNumber = '6282234370999';
+      const waText = encodeURIComponent('Hello AOSUNLOCKER,%0A%0AI want the password and support for this file:%0A' + featured.name + '%0AModel: ' + featured.model + '%0ADate: ' + featured.date + '%0A%0APlease send the password and access details.');
+      const waLink = 'https://wa.me/' + waNumber + '?text=' + waText;
+
       const featuredBtn = document.getElementById('featuredDownloadBtn');
       featuredBtn.href = featured.link || '#';
-      featuredBtn.textContent = featured.link ? 'Open Featured Package' : 'Link Not Available';
+      featuredBtn.textContent = featured.link ? 'Download Now' : 'Link Not Available';
+
+      const supportBtn = document.getElementById('featuredSupportBtn');
+      supportBtn.href = waLink;
+
+      const passwordBtn = document.getElementById('featuredPasswordBtn');
+      passwordBtn.href = waLink;
 
       document.getElementById('heroBadge').textContent = 'Shared Premium Download Page';
       document.getElementById('heroTitle').innerHTML = 'Premium package for <em>' + featured.model + '</em> is ready on <em>AOSUNLOCKER</em>';
       document.getElementById('heroDescription').textContent = 'This shared landing page was generated for a targeted file request, so visitors see the featured package first and still browse the related downloads below.';
-      document.getElementById('heroPrimaryCta').textContent = 'Open Featured Package';
+      document.getElementById('heroPrimaryCta').textContent = 'Download Now';
       document.getElementById('heroPrimaryCta').href = featured.link || '#';
       document.getElementById('heroPrimaryCta').target = '_blank';
       document.getElementById('heroPrimaryCta').rel = 'noopener noreferrer';
@@ -1262,6 +1403,24 @@
       window.requestAnimationFrame(function () {
         gateway.classList.add('gateway-pulse');
         gateway.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    const navbar = document.querySelector('.navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navActions = document.getElementById('navActions');
+
+    if (navToggle && navbar && navActions) {
+      navToggle.addEventListener('click', function () {
+        const isOpen = navbar.classList.toggle('menu-open');
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      navActions.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          navbar.classList.remove('menu-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
       });
     }
 
@@ -1301,6 +1460,14 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
