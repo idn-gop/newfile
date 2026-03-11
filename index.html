@@ -602,19 +602,79 @@
       box-shadow: 0 0 0 3px rgba(10, 92, 255, 0.12);
     }
     .form-status { min-height: 20px; }
-    .series-card h3 { color: var(--blue); letter-spacing: 0.4px; }
+    .series-card {
+      padding: 16px 16px 12px;
+      align-self: start;
+    }
+    .series-card h3 {
+      color: var(--blue);
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .series-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(10, 92, 255, 0.08);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
     .series-list {
       list-style: none;
       columns: 2;
-      column-gap: 18px;
+      column-gap: 16px;
     }
     .series-list li {
       break-inside: avoid;
-      padding: 7px 0;
+      padding: 6px 0;
       border-bottom: 1px solid #e7eef8;
       font-size: 13px;
       color: #45556d;
-      line-height: 1.55;
+      line-height: 1.45;
+    }
+    .qc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .qc-card {
+      background: var(--surface-alt);
+      border: 1px solid #e7eef8;
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .qc-card h3 {
+      font-size: 16px;
+      color: var(--blue);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .qc-list {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+    .qc-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid #e7eef8;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #45556d;
+    }
+    .qc-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
     }
     .faq-card details + details { margin-top: 10px; }
     .faq-card summary {
@@ -776,6 +836,7 @@
       .hero-stats,
       .showcase-thumbs,
       .form-grid { grid-template-columns: 1fr 1fr; }
+      .qc-grid { grid-template-columns: 1fr; }
       .download-feature {
         gap: 12px;
       }
@@ -797,6 +858,7 @@
         padding: 12px 13px;
       }
       .series-list { columns: 1; }
+      .series-card h3 { align-items: flex-start; }
       .btn,
       .btn-primary,
       .btn-secondary,
@@ -1150,10 +1212,10 @@
         </div>
       </div>
       <div class="support-box reveal-up reveal-delay-1">
-        <p class="support-intro">A cleaner supported list for technicians, resellers, and serious buyers who want fast access to relevant packages.</p>
+        <p class="support-intro">A tighter supported list for technicians, resellers, and serious buyers who want fast access to the right package without scrolling through oversized cards.</p>
         <div class="series-grid">
           <div class="series-card">
-            <h3>HONOR SERIES</h3>
+            <h3><span>HONOR SERIES</span><span class="series-count">21 Models</span></h3>
             <ul class="series-list">
               <li>Honor 90 (REA-AN00)</li>
               <li>Honor 90 GT (MAG-AN00)</li>
@@ -1179,14 +1241,14 @@
             </ul>
           </div>
           <div class="series-card">
-            <h3>HONOR CHANGXIANG SERIES</h3>
+            <h3><span>HONOR CHANGXIANG SERIES</span><span class="series-count">2 Models</span></h3>
             <ul class="series-list">
               <li>Honor Changxiang 80 (JLG-AN00)</li>
               <li>Honor Changxiang 80 (JLG-AN80)</li>
             </ul>
           </div>
           <div class="series-card">
-            <h3>MAGIC SERIES</h3>
+            <h3><span>MAGIC SERIES</span><span class="series-count">11 Models</span></h3>
             <ul class="series-list">
               <li>Magic 5 (PGT-AN00)</li>
               <li>Magic 5 Pro (PGT-AN10)</li>
@@ -1202,7 +1264,7 @@
             </ul>
           </div>
           <div class="series-card">
-            <h3>MAGIC FOLD SERIES</h3>
+            <h3><span>MAGIC FOLD SERIES</span><span class="series-count">6 Models</span></h3>
             <ul class="series-list">
               <li>Magic V2 (VER-AN10)</li>
               <li>Magic V3 (FCP-AN10)</li>
@@ -1218,6 +1280,88 @@
           <span>Tested Work</span>
           <span>WA / DM Available</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="qualcomm">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="section-tag">Qualcomm Instant ID</span>
+          <h2>Supported Qualcomm instant ID models</h2>
+          <p>This list is presented as a dedicated instant service block so visitors can quickly scan Qualcomm-based packages without mixing them into the broader Honor and Magic catalog.</p>
+        </div>
+      </div>
+      <div class="support-box reveal-up reveal-delay-2">
+        <div class="qc-grid">
+          <article class="qc-card">
+            <h3>QC Group 1</h3>
+            <ul class="qc-list">
+              <li>AGS5Z-XXX / AGS5-XXX (QC_680_EMMC)</li>
+              <li>AGS5Z-XXX / AGS5-XXX (QC_680_UFS)</li>
+              <li>ANY / RMO (QC_695)</li>
+              <li>ANY / RMO (QC_695_2)</li>
+              <li>ABR-XXX (QC_778)</li>
+              <li>ANN-AN00 (QC_782)</li>
+              <li>ALT-LXX (QC_8+4G)</li>
+              <li>AVA-PA00 (QC_888)</li>
+              <li>BNE-AL00 / LXX (QC_680)</li>
+              <li>BAL-XXX (QC_888)</li>
+              <li>BAH4-AL10 (QC_778)</li>
+              <li>BTK-XXX / BTKZ-XXX (QC_7_Gen_1)</li>
+              <li>ANY-LX1 (QC_695)</li>
+              <li>CET-XXX (QC_8+4G)</li>
+              <li>DCO-XXX (QC_8+4G)</li>
+              <li>CTR-AL00 (QC_680)</li>
+            </ul>
+          </article>
+          <article class="qc-card">
+            <h3>QC Group 2</h3>
+            <ul class="qc-list">
+              <li>CMA-LX1 / TFY-LX1 (QC_680)</li>
+              <li>DBR-XXX (QC_865)</li>
+              <li>DBY-XXX (QC_870)</li>
+              <li>DBY2-XXX (QC_888)</li>
+              <li>ELN-XXX (QC_685)</li>
+              <li>ELZ-AN00 (QC_888)</li>
+              <li>ELZ-AN10 / AN20 (QC_888)</li>
+              <li>FNE-XXX (QC_778)</li>
+              <li>FOA-XXX (QC_778)</li>
+              <li>FIN-AL60 (QC_778)</li>
+              <li>GDI-W09 (QC_888)</li>
+              <li>GOA-XXX (QC_778)</li>
+              <li>GOT-W09 / AL09 / AL19 (QC_888)</li>
+              <li>GOT-W29 (QC_870)</li>
+              <li>HEY-W09 (QC_680)</li>
+              <li>JLN-XXX (QC_680)</li>
+            </ul>
+          </article>
+          <article class="qc-card">
+            <h3>QC Group 3</h3>
+            <ul class="qc-list">
+              <li>JAD-XXX (QC_888)</li>
+              <li>LNA-AL00 (QC_8+4G)</li>
+              <li>LSA-XXX (QC_778)</li>
+              <li>MNA-AL00 (QC_8+4G)</li>
+              <li>MAO-AL00 (QC_680)</li>
+              <li>MRR-XXX (QC_870)</li>
+              <li>NTH-XXX (QC_778)</li>
+              <li>NAM-XXX (QC_778)</li>
+              <li>NCO-XXX (QC_778)</li>
+              <li>NTN-LXX (QC_662)</li>
+              <li>NEL-AN00 / GON-AN00 (QC_778)</li>
+              <li>PCU-AN00 / PKP-AN60 (QC_480)</li>
+              <li>PAL-AL00 / LXX (QC_888)</li>
+              <li>RNA-AL00 (QC_778)</li>
+              <li>RNA / TNA-AN00 (QC_778)</li>
+              <li>TINA / KATHY-AN00 (QC_778)</li>
+              <li>WDY-AN00 (QC_480PLUS)</li>
+              <li>VNE-XXX (QC_480PLUS)</li>
+            </ul>
+          </article>
+        </div>
+        <p class="qc-note">Instant Qualcomm ID support is displayed separately so clients can identify the chipset family faster and move directly into request or WhatsApp flow without confusion.</p>
       </div>
     </div>
   </section>
@@ -1330,6 +1474,9 @@
       if (item.id) return 'https://drive.google.com/file/d/' + item.id + '/view?usp=sharing';
       return '';
     }
+    function inferModelFromName(name) {
+      return (name || '').trim().split(/\s+/)[0] || 'Unknown model';
+    }
 
     function renderGatewayFromUrl() {
       const params = new URLSearchParams(window.location.search);
@@ -1356,7 +1503,7 @@
         name: params.get('name') || activeConfig.fileName || 'Featured file',
         size: params.get('size') || activeConfig.fileSize || 'Unknown size',
         type: params.get('type') || activeConfig.fileType || 'FIRMWARE',
-        model: params.get('model') || activeConfig.model || 'Unknown model',
+        model: params.get('model') || activeConfig.model || inferModelFromName(params.get('name') || activeConfig.fileName || ''),
         date: params.get('date') || activeConfig.date || 'Coming soon',
         link: params.get('link') || getFileLink(activeConfig),
         id: params.get('id') || activeConfig.id || ''
@@ -1472,6 +1619,12 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
