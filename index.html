@@ -1335,19 +1335,31 @@
       const params = new URLSearchParams(window.location.search);
       const cfg = decodeConfigPayload(params.get('cfg'));
       const gateway = document.getElementById('downloadGateway');
-      if (!cfg) return;
+      const fallbackLink = params.get('link') || (params.get('id') ? 'https://drive.google.com/file/d/' + params.get('id') + '/view?usp=sharing' : '');
+      const fallbackFeatured = (!cfg && (params.get('name') || fallbackLink || params.get('id'))) ? {
+        fileName: params.get('name') || 'Featured file',
+        fileSize: params.get('size') || 'Unknown size',
+        fileType: params.get('type') || 'FIRMWARE',
+        model: params.get('model') || 'Unknown model',
+        date: params.get('date') || 'Coming soon',
+        downloadLink: fallbackLink,
+        id: params.get('id') || '',
+        fileList: []
+      } : null;
+      const activeConfig = cfg || fallbackFeatured;
+      if (!activeConfig) return;
 
       gateway.classList.add('active');
       document.body.classList.add('has-shared-gateway');
 
       const featured = {
-        name: params.get('name') || cfg.fileName || 'Featured file',
-        size: params.get('size') || cfg.fileSize || 'Unknown size',
-        type: cfg.fileType || 'FIRMWARE',
-        model: cfg.model || 'Unknown model',
-        date: cfg.date || 'Coming soon',
-        link: params.get('link') || getFileLink(cfg),
-        id: params.get('id') || cfg.id || ''
+        name: params.get('name') || activeConfig.fileName || 'Featured file',
+        size: params.get('size') || activeConfig.fileSize || 'Unknown size',
+        type: params.get('type') || activeConfig.fileType || 'FIRMWARE',
+        model: params.get('model') || activeConfig.model || 'Unknown model',
+        date: params.get('date') || activeConfig.date || 'Coming soon',
+        link: params.get('link') || getFileLink(activeConfig),
+        id: params.get('id') || activeConfig.id || ''
       };
 
       if (!featured.link && featured.id) {
@@ -1388,7 +1400,7 @@
       document.getElementById('heroSecondaryCta').textContent = 'View Related Downloads';
       document.getElementById('heroSecondaryCta').href = '#downloadGateway';
 
-      const fileList = Array.isArray(cfg.fileList) ? cfg.fileList : [];
+      const fileList = Array.isArray(activeConfig.fileList) ? activeConfig.fileList : [];
       document.getElementById('downloadCount').textContent = fileList.length + ' items in the current shared list';
       const listEl = document.getElementById('gatewayList');
       listEl.innerHTML = fileList.map(function (item, index) {
@@ -1460,6 +1472,7 @@
   </script>
 </body>
 </html>
+
 
 
 
