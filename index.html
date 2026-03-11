@@ -17,7 +17,6 @@
       --gold: #d5a437;
       --success: #0d9f6e;
       --shadow: 0 18px 50px rgba(10, 34, 66, 0.12);
-      --radius-xl: 28px;
       --max: 1220px;
     }
 
@@ -34,7 +33,7 @@
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
     .container { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
-    .section { padding: 34px 0; }
+    .section { padding: 24px 0; }
 
     .navbar {
       position: sticky;
@@ -51,11 +50,7 @@
       gap: 18px;
       padding: 16px 0;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
     .brand-box {
       width: 48px;
       height: 48px;
@@ -97,7 +92,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 13px 22px;
+      padding: 12px 20px;
       border-radius: 12px;
       border: 1px solid transparent;
       font-weight: 800;
@@ -111,10 +106,67 @@
       box-shadow: 0 12px 30px rgba(10, 92, 255, 0.22);
     }
     .btn-primary:hover { transform: translateY(-2px); }
+    .btn,
+    .service-card,
+    .trust-card,
+    .workflow-panel,
+    .request-panel,
+    .support-box,
+    .faq-card,
+    .download-shell,
+    .gateway-item,
+    .series-card,
+    .download-stat,
+    .stat,
+    .thumb {
+      transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease, opacity 0.4s ease;
+    }
+    .service-card:hover,
+    .trust-card:hover,
+    .gateway-item:hover,
+    .series-card:hover,
+    .thumb:hover,
+    .download-stat:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 38px rgba(12, 34, 60, 0.1);
+      border-color: #cddced;
+    }
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: revealUp 0.7s ease forwards;
+    }
+    .reveal-delay-1 { animation-delay: 0.08s; }
+    .reveal-delay-2 { animation-delay: 0.16s; }
+    .reveal-delay-3 { animation-delay: 0.24s; }
+    @keyframes revealUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .gateway-pulse {
+      animation: gatewayPulse 1.6s ease;
+    }
+    @keyframes gatewayPulse {
+      0% { box-shadow: 0 0 0 rgba(10, 92, 255, 0); }
+      35% { box-shadow: 0 0 0 8px rgba(10, 92, 255, 0.08); }
+      100% { box-shadow: 0 0 0 rgba(10, 92, 255, 0); }
+    }
     .btn-secondary {
       border-color: var(--line);
-      background: rgba(255, 255, 255, 0.84);
+      background: rgba(255, 255, 255, 0.9);
       color: var(--text);
+    }
+    .btn-light {
+      background: #fff;
+      color: var(--blue-dark);
+      font-weight: 900;
+    }
+    .btn-outline-light {
+      border-color: rgba(255,255,255,0.28);
+      color: #fff;
+      background: rgba(255,255,255,0.06);
     }
 
     .hero-wrap { padding: 18px 0 0; }
@@ -273,290 +325,210 @@
       font-weight: 700;
     }
 
-    .quick-bar {
-      display: none;
-    }
-    .quick-item {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 10px 30px rgba(16, 42, 74, 0.06);
-    }
-    .quick-item strong { display: block; margin-bottom: 6px; font-size: 15px; }
-    .quick-item span { color: var(--muted); font-size: 14px; }
+    .quick-bar { display: none; }
 
-    .download-gateway {
-      display: none;
-    }
-    .download-gateway.active {
-      display: block;
-    }
-    .download-shell {
+    .download-gateway { display: none; }
+    .download-gateway.active { display: block; }
+    .download-shell,
+    .service-card,
+    .trust-card,
+    .workflow-panel,
+    .request-panel,
+    .support-box,
+    .faq-card {
       background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 28px;
-      box-shadow: var(--shadow);
+      border: 1px solid #e3ebf5;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 28px rgba(12, 34, 60, 0.06);
     }
-    .download-feature {
+    .download-feature,
+    .workflow {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 22px;
-      margin-bottom: 22px;
+      gap: 14px;
     }
+    .download-feature { grid-template-columns: 1.05fr 0.95fr; margin-bottom: 14px; }
+    .workflow { grid-template-columns: 0.98fr 1.02fr; }
     .download-main {
-      background: linear-gradient(135deg, #08111f, #0f2650);
+      background: linear-gradient(135deg, #08111f, #0d2345);
       color: #fff;
-      border-radius: 24px;
-      padding: 24px;
+      border-radius: 20px;
+      padding: 20px;
       min-height: 100%;
     }
     .download-main h3 {
-      font-size: 32px;
-      line-height: 1.08;
-      letter-spacing: -1px;
-      margin-bottom: 12px;
+      font-size: 24px;
+      line-height: 1.06;
+      letter-spacing: -0.7px;
+      margin-bottom: 10px;
     }
     .download-main p {
-      color: rgba(255,255,255,0.76);
-      margin-bottom: 18px;
-      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 14px;
+      font-size: 14px;
+      line-height: 1.7;
     }
-    .download-meta {
+    .download-meta,
+    .support-notes,
+    .download-actions,
+    .request-actions,
+    .cta-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 18px;
+    }
+    .download-chip,
+    .support-notes span {
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
     }
     .download-chip {
-      padding: 9px 12px;
-      border-radius: 999px;
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.08);
-      font-size: 12px;
-      font-weight: 800;
       color: #dce8ff;
     }
-    .download-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+    .support-notes span {
+      background: rgba(13, 159, 110, 0.08);
+      color: var(--success);
     }
-    .download-side {
-      display: grid;
-      gap: 14px;
-    }
-    .download-stat {
+    .download-side { display: grid; gap: 10px; }
+    .download-stat,
+    .gateway-item,
+    .workflow-steps li,
+    .series-card,
+    .faq-card details {
       background: var(--surface-alt);
       border: 1px solid #e7eef8;
-      border-radius: 18px;
-      padding: 18px;
+      border-radius: 16px;
+      padding: 16px;
     }
-    .download-stat strong {
+    .download-stat strong,
+    .gateway-item h4,
+    .series-card h3,
+    .workflow-steps strong,
+    .request-panel strong,
+    .field label {
       display: block;
-      font-size: 14px;
       margin-bottom: 4px;
-    }
-    .download-stat span {
-      color: var(--muted);
       font-size: 14px;
     }
-    .gateway-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-    .gateway-item {
-      background: var(--surface-alt);
-      border: 1px solid #e7eef8;
-      border-radius: 18px;
-      padding: 18px;
-      display: grid;
-      gap: 10px;
-    }
-    .gateway-item h4 {
-      font-size: 16px;
-      line-height: 1.3;
-    }
-    .gateway-item p {
+    .download-stat span,
+    .gateway-item p,
+    .workflow-steps span,
+    .request-panel p,
+    .form-hint,
+    .form-status,
+    .support-intro,
+    .section-head p,
+    .service-card p,
+    .trust-card p,
+    .faq-card p {
       color: var(--muted);
       font-size: 14px;
+      line-height: 1.7;
     }
-    .gateway-item .btn {
-      width: 100%;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 24px;
-    }
-    .section-head h2 {
-      font-size: clamp(28px, 4vw, 40px);
-      line-height: 1.06;
-      letter-spacing: -1.4px;
-      margin-bottom: 8px;
-    }
-    .section-head p { max-width: 700px; color: var(--muted); font-size: 15px; }
-    .section-tag {
-      color: var(--blue);
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
+    .gateway-list,
     .service-grid,
     .trust-grid,
-    .faq-grid {
+    .faq-grid,
+    .series-grid,
+    .form-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      gap: 14px;
     }
-    .service-card,
-    .trust-card,
-    .faq-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-    }
+    .gateway-list,
+    .series-grid { grid-template-columns: repeat(2, 1fr); }
+    .service-grid,
+    .trust-grid { grid-template-columns: repeat(3, 1fr); }
+    .faq-grid { grid-template-columns: 1fr 1fr; }
     .service-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
       display: grid;
       place-items: center;
-      margin-bottom: 18px;
-      background: rgba(10, 92, 255, 0.1);
+      margin-bottom: 14px;
+      background: rgba(10, 92, 255, 0.09);
       color: var(--blue);
       font-weight: 900;
       letter-spacing: 1px;
-      font-size: 13px;
+      font-size: 12px;
     }
     .service-card h3,
     .trust-card h3,
-    .faq-card h3 { font-size: 24px; margin-bottom: 12px; letter-spacing: -0.7px; }
-    .service-card p,
-    .trust-card p,
-    .faq-card p { color: var(--muted); margin-bottom: 18px; font-size: 15px; }
-    .trust-quote {
-      font-size: 15px;
-      color: #334257;
-      margin-bottom: 18px;
+    .faq-card h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+      letter-spacing: -0.4px;
     }
-    .trust-meta strong { display: block; font-size: 15px; }
-    .trust-meta span { color: var(--muted); font-size: 13px; }
     .service-points {
       list-style: none;
       display: grid;
-      gap: 10px;
-      margin-bottom: 18px;
+      gap: 8px;
+      margin-bottom: 14px;
     }
     .service-points li {
-      font-size: 14px;
+      font-size: 13px;
       color: #445166;
-      padding-left: 18px;
+      padding-left: 16px;
       position: relative;
+      line-height: 1.65;
     }
     .service-points li::before {
-      content: "";
-      width: 8px;
-      height: 8px;
+      content: '';
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
       background: var(--blue);
       position: absolute;
       left: 0;
-      top: 8px;
+      top: 7px;
     }
-
-    .workflow {
-      display: grid;
-      grid-template-columns: 0.95fr 1.05fr;
-      gap: 22px;
-    }
-    .workflow-panel,
-    .request-panel {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-    }
+    .trust-quote { font-size: 14px; color: #334257; margin-bottom: 14px; }
+    .trust-meta strong { display: block; font-size: 14px; }
+    .trust-meta span { color: var(--muted); font-size: 12px; }
     .workflow-steps {
       list-style: none;
       display: grid;
-      gap: 14px;
-      margin-top: 18px;
+      gap: 10px;
+      margin-top: 14px;
     }
     .workflow-steps li {
       display: grid;
-      grid-template-columns: 46px 1fr;
-      gap: 14px;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
       align-items: start;
-      padding: 14px;
-      border-radius: 16px;
-      background: var(--surface-alt);
-      border: 1px solid #e7eef8;
+      padding: 12px;
     }
     .step-no {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       display: grid;
       place-items: center;
       background: linear-gradient(135deg, var(--blue), var(--blue-dark));
       color: #fff;
       font-weight: 900;
-    }
-    .workflow-steps strong,
-    .request-panel strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 16px;
-    }
-    .workflow-steps span,
-    .request-panel p,
-    .form-hint,
-    .form-status {
-      color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
     }
     .request-form {
       display: grid;
       gap: 14px;
-      margin: 20px 0 22px;
+      margin: 18px 0 20px;
     }
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-    .field-full {
-      grid-column: 1 / -1;
-    }
-    .field label {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: 0.2px;
-    }
+    .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .field { display: grid; gap: 8px; }
+    .field-full { grid-column: 1 / -1; }
     .field input,
     .field select,
     .field textarea {
       width: 100%;
-      border: 1px solid var(--line);
-      background: var(--surface-alt);
-      border-radius: 14px;
-      padding: 13px 14px;
+      border: 1px solid #dde7f2;
+      background: #fbfdff;
+      border-radius: 12px;
+      padding: 12px 13px;
       color: var(--text);
       font: inherit;
       outline: none;
@@ -570,72 +542,21 @@
       box-shadow: 0 0 0 3px rgba(10, 92, 255, 0.12);
     }
     .form-status { min-height: 20px; }
-    .request-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .support-box {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 30px;
-      box-shadow: var(--shadow);
-    }
-    .support-intro { color: var(--muted); font-size: 15px; margin-bottom: 24px; }
-    .series-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-    .series-card {
-      background: linear-gradient(180deg, #fbfdff, #f4f8fd);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 22px;
-    }
-    .series-card h3 {
-      font-size: 16px;
-      margin-bottom: 14px;
-      color: var(--blue);
-      letter-spacing: 0.5px;
-    }
+    .series-card h3 { color: var(--blue); letter-spacing: 0.4px; }
     .series-list {
       list-style: none;
       columns: 2;
-      column-gap: 20px;
+      column-gap: 18px;
     }
     .series-list li {
       break-inside: avoid;
-      padding: 8px 0;
+      padding: 7px 0;
       border-bottom: 1px solid #e7eef8;
-      font-size: 14px;
-      color: #45556d;
-    }
-    .support-notes {
-      margin-top: 20px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .support-notes span {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(13, 159, 110, 0.08);
-      color: var(--success);
       font-size: 13px;
-      font-weight: 800;
+      color: #45556d;
+      line-height: 1.55;
     }
-
-    .faq-grid { grid-template-columns: 1fr 1fr; }
-    .faq-card details {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 16px 18px;
-      background: var(--surface-alt);
-    }
-    .faq-card details + details { margin-top: 12px; }
+    .faq-card details + details { margin-top: 10px; }
     .faq-card summary {
       list-style: none;
       cursor: pointer;
@@ -643,83 +564,95 @@
       color: var(--text);
     }
     .faq-card summary::-webkit-details-marker { display: none; }
-    .faq-card details p { margin: 12px 0 0; }
-
+    .faq-card details p { margin: 10px 0 0; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .section-head h2 {
+      font-size: clamp(24px, 3.4vw, 34px);
+      line-height: 1.08;
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+    }
+    .section-tag {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      font-size: 12px;
+      font-weight: 800;
+    }
     .cta-panel {
       background: linear-gradient(135deg, #0a5cff, #0038a8);
       color: #fff;
-      border-radius: 26px;
-      padding: 34px;
-      box-shadow: var(--shadow);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 18px 42px rgba(10, 45, 120, 0.18);
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 18px;
+      gap: 16px;
       align-items: center;
     }
     .cta-panel h2 {
-      font-size: clamp(28px, 4vw, 42px);
+      font-size: clamp(24px, 4vw, 34px);
       line-height: 1.08;
-      margin-bottom: 10px;
-      letter-spacing: -1.3px;
+      margin-bottom: 8px;
+      letter-spacing: -0.8px;
     }
-    .cta-panel p { color: rgba(255,255,255,0.8); max-width: 720px; }
-    .cta-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .btn-light {
-      background: #fff;
-      color: var(--blue-dark);
-      font-weight: 900;
-    }
-    .btn-outline-light {
-      border-color: rgba(255,255,255,0.28);
-      color: #fff;
-      background: rgba(255,255,255,0.06);
+    .cta-panel p {
+      color: rgba(255,255,255,0.82);
+      max-width: 660px;
+      font-size: 14px;
+      line-height: 1.75;
     }
 
     .footer {
       background: #08111f;
       color: #fff;
-      margin-top: 34px;
-      padding: 56px 0 30px;
+      margin-top: 28px;
+      padding: 48px 0 28px;
     }
     .footer-grid {
       display: grid;
       grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 28px;
-      margin-bottom: 24px;
+      gap: 24px;
+      margin-bottom: 20px;
     }
     .footer h4 {
       color: #9dc2ff;
-      margin-bottom: 16px;
-      font-size: 17px;
+      margin-bottom: 14px;
+      font-size: 16px;
     }
     .footer p,
     .footer li {
       color: rgba(255,255,255,0.7);
       list-style: none;
-      margin-bottom: 10px;
-      font-size: 14px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.7;
     }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 20px;
+      padding-top: 18px;
       color: rgba(255,255,255,0.55);
-      font-size: 13px;
+      font-size: 12px;
       text-align: center;
     }
 
     @media (max-width: 1080px) {
       .hero-grid,
+      .download-feature,
       .workflow,
       .cta-panel,
       .service-grid,
+      .trust-grid,
       .series-grid,
-      .footer-grid,
-      .quick-bar {
+      .faq-grid,
+      .gateway-list,
+      .footer-grid {
         grid-template-columns: 1fr;
       }
       .showcase-thumbs { grid-template-columns: repeat(4, 1fr); }
@@ -730,28 +663,40 @@
       .nav-inner,
       .nav-actions,
       .hero-cta,
-      .request-actions {
+      .request-actions,
+      .download-actions,
+      .cta-actions {
         flex-direction: column;
         align-items: stretch;
       }
-      .hero { padding: 20px; }
-      .hero h1 { letter-spacing: -1.4px; }
-      .hero-stats,
-      .showcase-thumbs { grid-template-columns: repeat(2, 1fr); }
-      .series-list { columns: 1; }
+      .hero,
+      .download-shell,
       .service-card,
+      .trust-card,
       .workflow-panel,
       .request-panel,
       .support-box,
-      .cta-panel { padding: 22px; }
-      .form-grid { grid-template-columns: 1fr; }
+      .faq-card,
+      .cta-panel { padding: 18px; }
+      .hero h1 { letter-spacing: -1.4px; }
+      .hero-stats,
+      .showcase-thumbs,
+      .form-grid { grid-template-columns: 1fr 1fr; }
+      .series-list { columns: 1; }
       .btn,
       .btn-primary,
       .btn-secondary,
       .btn-light,
       .btn-outline-light { width: 100%; }
     }
-  </style>
+
+    @media (max-width: 560px) {
+      .hero-stats,
+      .showcase-thumbs,
+      .form-grid { grid-template-columns: 1fr; }
+      .container { width: min(calc(100% - 20px), var(--max)); }
+      .hero { border-radius: 24px; }
+    }</style>
 </head>
 <body>
   <nav class="navbar">
@@ -760,7 +705,7 @@
         <div class="brand-box">H</div>
         <div class="brand-copy">
           <strong>AOSUNLOCKER</strong>
-          <span>Official Honor & Magic Promo Page</span>
+          <span>Official Honor & Magic Service Gateway</span>
         </div>
       </div>
       <div class="nav-actions">
@@ -774,15 +719,15 @@
 
   <div class="hero-wrap">
     <div class="container">
-      <section class="hero">
+      <section class="hero reveal-up">
         <div class="hero-grid">
           <div class="hero-copy">
             <span class="hero-kicker">Worldwide Remote Service</span>
-            <h1 id="heroTitle">Professional <em>Honor & Magic</em> service page for <em>aosunlocker.com</em></h1>
-            <p id="heroDescription">AOSUNLOCKER helps technicians, resellers, and end clients request remote ID removal, single files, and premium drive access through a cleaner and more trusted service experience.</p>
+            <h1 id="heroTitle">Premium <em>Honor & Magic</em> download and service gateway for <em>aosunlocker.com</em></h1>
+            <p id="heroDescription">AOSUNLOCKER gives technicians, resellers, and serious clients a cleaner way to access featured downloads, request premium files, and connect with a trusted Honor & Magic service gateway.</p>
             <div class="hero-cta">
-              <a href="#request" class="btn btn-primary" id="heroPrimaryCta">Submit Request</a>
-              <a href="#models" class="btn btn-secondary" id="heroSecondaryCta">Check Supported Models</a>
+              <a href="#request" class="btn btn-primary" id="heroPrimaryCta">Start With A Request</a>
+              <a href="#models" class="btn btn-secondary" id="heroSecondaryCta">Explore Supported Models</a>
             </div>
             <div class="hero-stats">
               <div class="stat">
@@ -849,18 +794,18 @@
 
   <section class="section download-gateway" id="downloadGateway">
     <div class="container">
-      <div class="download-shell">
+      <div class="download-shell reveal-up reveal-delay-1">
         <div class="section-head">
           <div>
             <span class="section-tag">Download Gateway</span>
-            <h2 id="gatewayHeading">Featured file ready for download</h2>
-            <p id="gatewayDescription">This section is filled automatically from the shared generator link, so visitors can view the featured file and browse the available download list from one landing page.</p>
+            <h2 id="gatewayHeading">Featured package ready for access</h2>
+            <p id="gatewayDescription">This section is generated from your shared link so every visitor lands on a cleaner gateway with one featured package and a supporting download list.</p>
           </div>
         </div>
         <div class="download-feature">
           <div class="download-main">
             <h3 id="featuredName">No featured file yet</h3>
-            <p id="featuredDescription">Open this page using a generated landing URL and the featured file will appear here.</p>
+            <p id="featuredDescription">This area highlights the primary package you want the visitor to open first before checking the rest of the available files.</p>
             <div class="download-meta">
               <span class="download-chip" id="featuredModel">Model: -</span>
               <span class="download-chip" id="featuredSize">Size: -</span>
@@ -868,22 +813,22 @@
               <span class="download-chip" id="featuredDate">Date: -</span>
             </div>
             <div class="download-actions">
-              <a href="#" class="btn btn-light" id="featuredDownloadBtn" target="_blank" rel="noopener noreferrer">Open File</a>
-              <a href="https://wa.me/6282234370999" class="btn btn-outline-light" id="featuredSupportBtn">Need Support</a>
+              <a href="#" class="btn btn-light" id="featuredDownloadBtn" target="_blank" rel="noopener noreferrer">Open Package</a>
+              <a href="https://wa.me/6282234370999" class="btn btn-outline-light" id="featuredSupportBtn">Talk To Support</a>
             </div>
           </div>
           <div class="download-side">
             <div class="download-stat">
-              <strong>Featured file source</strong>
-              <span id="featuredSource">Waiting for generated data</span>
+              <strong>Package status</strong>
+              <span id="featuredSource">Waiting for generated landing data</span>
             </div>
             <div class="download-stat">
-              <strong>Total download items</strong>
-              <span id="downloadCount">0 items in the current shared list</span>
+              <strong>Available related files</strong>
+              <span id="downloadCount">0 files in this shared package list</span>
             </div>
             <div class="download-stat">
-              <strong>Recommended sharing flow</strong>
-              <span>Send the landing link from the generator so visitors see this page, the featured file, and the related download list together.</span>
+              <strong>Best sharing strategy</strong>
+              <span>Use the landing URL from the generator so visitors first see your branded page, the highlighted package, and the related downloads together.</span>
             </div>
           </div>
         </div>
@@ -897,43 +842,43 @@
       <div class="section-head">
         <div>
           <span class="section-tag">Core Services</span>
-          <h2>Three clear offers for your main promotional website</h2>
-          <p>Instead of showing only a raw list, this layout presents AOSUNLOCKER like a proper service brand with distinct offer types and action paths.</p>
+          <h2>Three strong offers for a cleaner conversion funnel</h2>
+          <p>Instead of sending people into an unstructured chat, this layout presents AOSUNLOCKER like a proper premium service brand with clearer offer paths.</p>
         </div>
       </div>
       <div class="service-grid">
-        <article class="service-card">
+        <article class="service-card reveal-up reveal-delay-1">
           <div class="service-icon">RMT</div>
-          <h3>Single Remote Service</h3>
-          <p>Remote assistance for supported Honor and Magic devices with a faster and more organized request flow.</p>
+          <h3>Remote Service Access</h3>
+          <p>Offer direct remote support for supported Honor and Magic devices with a more credible and conversion-friendly request flow.</p>
           <ul class="service-points">
-            <li>Good for single job requests and technician handling</li>
-            <li>Easy to route through WhatsApp or a future form</li>
-            <li>Better presentation for international clients</li>
+            <li>Ideal for one-off jobs and technician requests</li>
+            <li>Easy to route through WhatsApp or a future intake form</li>
+            <li>Stronger presentation for international buyers</li>
           </ul>
-          <a href="#request" class="btn btn-secondary">Request This Service</a>
+          <a href="#request" class="btn btn-secondary">Request Remote Access</a>
         </article>
-        <article class="service-card">
+        <article class="service-card reveal-up reveal-delay-1">
           <div class="service-icon">FILE</div>
-          <h3>Buy Single Files</h3>
-          <p>Offer specific firmware or board files as a focused service without forcing users into a manual chat-only flow.</p>
+          <h3>Single File Delivery</h3>
+          <p>Sell specific firmware or board files through a more structured experience that feels more premium than a plain manual chat flow.</p>
           <ul class="service-points">
-            <li>Useful for one-off file purchases</li>
-            <li>Cleaner than sending unstructured requests</li>
-            <li>Fits well with model-based request forms</li>
+            <li>Perfect for one-time file delivery</li>
+            <li>Cleaner than handling random file messages</li>
+            <li>Pairs well with model-based request intake</li>
           </ul>
-          <a href="#request" class="btn btn-secondary">Ask for Files</a>
+          <a href="#request" class="btn btn-secondary">Request A File</a>
         </article>
-        <article class="service-card">
+        <article class="service-card reveal-up reveal-delay-1">
           <div class="service-icon">DRIVE</div>
-          <h3>Full Drive Access</h3>
-          <p>Promote your premium package in a more professional way with a dedicated section and stronger brand positioning.</p>
+          <h3>Premium Drive Access</h3>
+          <p>Position your premium access package as a serious upsell with stronger brand framing and a more polished landing experience.</p>
           <ul class="service-points">
-            <li>Better for resellers and regular technicians</li>
-            <li>Easy to bundle with support and updates</li>
-            <li>Works as a premium upsell inside the landing page</li>
+            <li>Best for resellers and repeat technicians</li>
+            <li>Easy to bundle with support and regular updates</li>
+            <li>Creates a stronger premium upsell on-page</li>
           </ul>
-          <a href="https://wa.me/6282234370999" class="btn btn-secondary">Contact for Package</a>
+          <a href="https://wa.me/6282234370999" class="btn btn-secondary">Unlock Premium Access</a>
         </article>
       </div>
     </div>
@@ -944,25 +889,25 @@
       <div class="section-head">
         <div>
           <span class="section-tag">Trust Signals</span>
-          <h2>Make the page feel safer for new visitors</h2>
-          <p>For promo traffic, trust matters almost as much as the service itself. These blocks help the page feel more like a serious brand landing page.</p>
+          <h2>Trust builders that make new visitors stay longer</h2>
+          <p>For cold traffic, trust matters almost as much as the product itself. These blocks make the page feel more established, safer, and more worth engaging with.</p>
         </div>
       </div>
       <div class="trust-grid">
-        <article class="trust-card">
-          <h3>Technician Friendly</h3>
-          <p class="trust-quote">Built to help technicians and repeat buyers submit better requests with less back-and-forth before a job starts.</p>
-          <div class="trust-meta"><strong>Best for repeat clients</strong><span>Clear intake flow and less messy chat history</span></div>
+        <article class="trust-card reveal-up reveal-delay-2">
+          <h3>Built For Technicians</h3>
+          <p class="trust-quote">Designed for technicians and repeat buyers who want faster approval flow and less wasted back-and-forth before work begins.</p>
+          <div class="trust-meta"><strong>Best for repeat business</strong><span>Clear intake flow and less messy chat history</span></div>
         </article>
-        <article class="trust-card">
-          <h3>Fast Handling</h3>
-          <p class="trust-quote">A clear form plus WhatsApp follow-up makes it easier to identify device model, service type, and important notes immediately.</p>
-          <div class="trust-meta"><strong>Best for busy support</strong><span>More structured requests coming into your inbox</span></div>
+        <article class="trust-card reveal-up reveal-delay-2">
+          <h3>Faster Lead Handling</h3>
+          <p class="trust-quote">A more structured intake flow helps you identify the model, service type, and important notes before the chat becomes messy.</p>
+          <div class="trust-meta"><strong>Best for active support teams</strong><span>More structured requests coming into your inbox</span></div>
         </article>
-        <article class="trust-card">
-          <h3>Brand Ready</h3>
-          <p class="trust-quote">This page now feels closer to an official service gateway for aosunlocker.com instead of a simple personal sales page.</p>
-          <div class="trust-meta"><strong>Best for international reach</strong><span>Cleaner copy and stronger brand presentation</span></div>
+        <article class="trust-card reveal-up reveal-delay-2">
+          <h3>Brand Positioning</h3>
+          <p class="trust-quote">This layout feels closer to an official branded service gateway for aosunlocker.com instead of a basic personal seller page.</p>
+          <div class="trust-meta"><strong>Best for global credibility</strong><span>Cleaner copy and stronger brand presentation</span></div>
         </article>
       </div>
     </div>
@@ -971,45 +916,45 @@
   <section class="section">
     <div class="container">
       <div class="workflow">
-        <div class="workflow-panel">
+        <div class="workflow-panel reveal-up reveal-delay-1">
           <span class="section-tag">How It Works</span>
-          <h2 style="font-size:32px; line-height:1.08; margin-top:8px;">A more professional request flow</h2>
+          <h2 style="font-size:32px; line-height:1.08; margin-top:8px;">A cleaner path from interest to action</h2>
           <ol class="workflow-steps">
             <li>
               <div class="step-no">1</div>
               <div>
                 <strong>Client checks supported models</strong>
-                <span>Visitors can confirm their device family before sending random or incomplete messages.</span>
+                <span>Visitors can verify their device family before sending incomplete or low-quality messages.</span>
               </div>
             </li>
             <li>
               <div class="step-no">2</div>
               <div>
                 <strong>Client submits a service request</strong>
-                <span>The page guides them to request remote service, files, or premium package access.</span>
+                <span>The page guides them into remote service, file requests, or premium access without guesswork.</span>
               </div>
             </li>
             <li>
               <div class="step-no">3</div>
               <div>
                 <strong>AOSUNLOCKER reviews the case</strong>
-                <span>You can validate model, service type, and notes before continuing to live chat or processing.</span>
+                <span>You can review the model, service type, and notes before continuing into live chat or processing.</span>
               </div>
             </li>
             <li>
               <div class="step-no">4</div>
               <div>
                 <strong>Continue via WhatsApp or future system</strong>
-                <span>This keeps the page useful now, while still ready for a better dashboard or form integration later.</span>
+                <span>This keeps the landing page useful now while staying ready for a more advanced dashboard or automation later.</span>
               </div>
             </li>
           </ol>
         </div>
 
-        <div class="request-panel" id="request">
+        <div class="request-panel reveal-up reveal-delay-2" id="request">
           <span class="section-tag">Request Form</span>
-          <h2 style="font-size:32px; line-height:1.08; margin-top:8px;">Send a structured request</h2>
-          <p>This form turns your landing page into a real service gateway. Visitors can fill the request, then continue to WhatsApp with a cleaner pre-formatted message.</p>
+          <h2 style="font-size:32px; line-height:1.08; margin-top:8px;">Send a premium formatted request</h2>
+          <p>This form turns the page into a real service gateway. Visitors can fill the details first, then continue to WhatsApp with a cleaner, higher-quality request message.</p>
           <form class="request-form" id="serviceRequestForm">
             <div class="form-grid">
               <div class="field">
@@ -1028,7 +973,7 @@
                 <label for="serviceType">Requested Service</label>
                 <select id="serviceType" name="serviceType" required>
                   <option value="">Select a service</option>
-                  <option>Remote ID Service</option>
+                  <option>Remote Service Access</option>
                   <option>FRP Support</option>
                   <option>Single File Request</option>
                   <option>Premium Drive Access</option>
@@ -1052,11 +997,11 @@
                 <textarea id="buildVersion" name="buildVersion" placeholder="Add build number, patch version, chipset, or any important service notes" required></textarea>
               </div>
             </div>
-            <p class="form-hint">Tip: after filling the form, tap the WhatsApp button and the message will be generated automatically in a cleaner support format.</p>
+            <p class="form-hint">Tip: after filling the fields, the WhatsApp message is generated automatically in a cleaner sales-ready format.</p>
             <div class="form-status" id="formStatus"></div>
             <div class="request-actions">
-              <button type="submit" class="btn btn-primary">Send Request on WhatsApp</button>
-              <a href="https://aosunlocker.com" class="btn btn-secondary">Visit Main Website</a>
+              <button type="submit" class="btn btn-primary">Continue To WhatsApp</button>
+              <a href="https://aosunlocker.com" class="btn btn-secondary">Open Main Website</a>
             </div>
           </form>
         </div>
@@ -1069,12 +1014,12 @@
       <div class="section-head">
         <div>
           <span class="section-tag">Supported Models</span>
-          <h2>Removed ID for new Honor & Magic models</h2>
-          <p>Latest supported list for promotion use. This is much more convincing when grouped by product family instead of shown as one long raw message block.</p>
+          <h2>Supported Honor & Magic packages</h2>
+          <p>A more premium way to present your supported packages. Grouping the list by product family makes it cleaner, easier to scan, and more convincing for buyers.</p>
         </div>
       </div>
-      <div class="support-box">
-        <p class="support-intro">Latest supported list with competitive pricing for technicians, resellers, and remote service requests.</p>
+      <div class="support-box reveal-up reveal-delay-1">
+        <p class="support-intro">A cleaner supported list for technicians, resellers, and serious buyers who want fast access to relevant packages.</p>
         <div class="series-grid">
           <div class="series-card">
             <h3>HONOR SERIES</h3>
@@ -1151,12 +1096,12 @@
       <div class="section-head">
         <div>
           <span class="section-tag">FAQ</span>
-          <h2>Answer common questions before they ask</h2>
-          <p>This reduces repetitive chat replies and makes the landing page feel more complete for first-time visitors.</p>
+          <h2>FAQ that removes friction before chat starts</h2>
+          <p>A tighter FAQ reduces repetitive questions and gives first-time visitors more confidence before they click through.</p>
         </div>
       </div>
       <div class="faq-grid">
-        <article class="faq-card">
+        <article class="faq-card reveal-up reveal-delay-1">
           <h3>Service Questions</h3>
           <details open>
             <summary>How should clients send a request?</summary>
@@ -1171,7 +1116,7 @@
             <p>The strongest next step is connecting the request form to Google Sheets or email so every lead is stored automatically.</p>
           </details>
         </article>
-        <article class="faq-card">
+        <article class="faq-card reveal-up reveal-delay-1">
           <h3>Brand Questions</h3>
           <details open>
             <summary>Why is this better than a plain chat-only page?</summary>
@@ -1192,15 +1137,15 @@
 
   <section class="section">
     <div class="container">
-      <div class="cta-panel">
+      <div class="cta-panel reveal-up reveal-delay-2">
         <div>
           <span class="section-tag" style="color:#d6e4ff;">Main Conversion CTA</span>
-          <h2>Use this page to support the main AOSUNLOCKER brand professionally</h2>
-          <p>For the next step, the strongest upgrade would be connecting this request form to email, Google Sheets, or a dashboard so every request is stored automatically.</p>
+          <h2>Turn every shared link into a stronger AOSUNLOCKER sales touchpoint</h2>
+          <p>This landing page is already stronger for direct sharing. The next premium upgrade is connecting requests to email, Google Sheets, or a dashboard so every lead is captured automatically.</p>
         </div>
         <div class="cta-actions">
-          <a href="https://wa.me/6282234370999" class="btn btn-light">Talk on WhatsApp</a>
-          <a href="https://aosunlocker.com" class="btn btn-outline-light">Open aosunlocker.com</a>
+          <a href="https://wa.me/6282234370999" class="btn btn-light">Speak With Us</a>
+          <a href="https://aosunlocker.com" class="btn btn-outline-light">Visit aosunlocker.com</a>
         </div>
       </div>
     </div>
@@ -1211,12 +1156,12 @@
       <div class="footer-grid">
         <div>
           <h4>AOSUNLOCKER</h4>
-          <p>Professional promotional page for Honor & Magic remote services, single file requests, and premium package offers.</p>
+          <p>Premium promotional landing page for Honor & Magic remote services, file delivery, and premium access offers.</p>
         </div>
         <div>
           <h4>Service Focus</h4>
           <ul>
-            <li>Remote ID Service</li>
+            <li>Remote Service Access</li>
             <li>FRP Support</li>
             <li>Single File Delivery</li>
             <li>Premium Drive Access</li>
@@ -1229,7 +1174,7 @@
           <p>Working hours: 09:00 - 22:00 (GMT+7)</p>
         </div>
       </div>
-      <div class="footer-bottom">&copy; 2026 AOSUNLOCKER. Built as a promotional landing page for the main brand.</div>
+      <div class="footer-bottom">&copy; 2026 AOSUNLOCKER. Built as a branded conversion landing page for the main service.</div>
     </div>
   </footer>
 
@@ -1262,6 +1207,7 @@
       if (!cfg) return;
 
       gateway.classList.add('active');
+      document.body.classList.add('has-shared-gateway');
 
       const featured = {
         name: params.get('name') || cfg.fileName || 'Featured file',
@@ -1278,40 +1224,45 @@
       }
 
       document.getElementById('gatewayHeading').textContent = featured.name;
-      document.getElementById('gatewayDescription').textContent = 'This shared page was generated for a specific file request. Visitors can open the featured file and still explore the related download list below.';
+      document.getElementById('gatewayDescription').textContent = 'This shared page was generated for a specific file request. Visitors can open the featured package first, then continue through the related list below.';
       document.getElementById('featuredName').textContent = featured.name;
-      document.getElementById('featuredDescription').textContent = 'Use the main button below to open the featured file directly, or continue through the related list if you need a different package from the same shared page.';
+      document.getElementById('featuredDescription').textContent = 'Use the main action below to open the featured package directly, or continue through the related list if you want a nearby version from the same shared page.';
       document.getElementById('featuredModel').textContent = 'Model: ' + featured.model;
       document.getElementById('featuredSize').textContent = 'Size: ' + featured.size;
       document.getElementById('featuredType').textContent = 'Type: ' + featured.type;
       document.getElementById('featuredDate').textContent = 'Date: ' + featured.date;
-      document.getElementById('featuredSource').textContent = featured.link ? 'Ready to open from the shared landing page' : 'Link pending in the shared data';
+      document.getElementById('featuredSource').textContent = featured.link ? 'Ready to open from this branded landing page' : 'Link is still pending in the shared data';
 
       const featuredBtn = document.getElementById('featuredDownloadBtn');
       featuredBtn.href = featured.link || '#';
-      featuredBtn.textContent = featured.link ? 'Open Featured File' : 'Link Not Available';
+      featuredBtn.textContent = featured.link ? 'Open Featured Package' : 'Link Not Available';
 
-      document.getElementById('heroBadge').textContent = 'Shared Download Page';
-      document.getElementById('heroTitle').innerHTML = 'Featured file for <em>' + featured.model + '</em> is ready on <em>AOSUNLOCKER</em>';
-      document.getElementById('heroDescription').textContent = 'This shared landing page was generated for a file request, so visitors can see the featured file first and still browse the related downloads below.';
-      document.getElementById('heroPrimaryCta').textContent = 'Open Featured File';
+      document.getElementById('heroBadge').textContent = 'Shared Premium Download Page';
+      document.getElementById('heroTitle').innerHTML = 'Premium package for <em>' + featured.model + '</em> is ready on <em>AOSUNLOCKER</em>';
+      document.getElementById('heroDescription').textContent = 'This shared landing page was generated for a targeted file request, so visitors see the featured package first and still browse the related downloads below.';
+      document.getElementById('heroPrimaryCta').textContent = 'Open Featured Package';
       document.getElementById('heroPrimaryCta').href = featured.link || '#';
       document.getElementById('heroPrimaryCta').target = '_blank';
       document.getElementById('heroPrimaryCta').rel = 'noopener noreferrer';
-      document.getElementById('heroSecondaryCta').textContent = 'Jump To Download List';
+      document.getElementById('heroSecondaryCta').textContent = 'View Related Downloads';
       document.getElementById('heroSecondaryCta').href = '#downloadGateway';
 
       const fileList = Array.isArray(cfg.fileList) ? cfg.fileList : [];
       document.getElementById('downloadCount').textContent = fileList.length + ' items in the current shared list';
       const listEl = document.getElementById('gatewayList');
-      listEl.innerHTML = fileList.map(function (item) {
+      listEl.innerHTML = fileList.map(function (item, index) {
         const itemLink = getFileLink(item);
-        return '<article class="gateway-item">' +
+        return '<article class="gateway-item reveal-up reveal-delay-' + ((index % 3) + 1) + '">' +
           '<h4>' + (item.name || 'Unnamed file') + '</h4>' +
           '<p>Model: ' + (item.model || '-') + ' | Size: ' + (item.size || '-') + ' | Date: ' + (item.date || '-') + '</p>' +
-          '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer">' + (itemLink ? 'Open Download' : 'Link Pending') + '</a>' +
+          '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer">' + (itemLink ? 'Open Package' : 'Package Pending') + '</a>' +
         '</article>';
       }).join('');
+
+      window.requestAnimationFrame(function () {
+        gateway.classList.add('gateway-pulse');
+        gateway.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     }
 
     renderGatewayFromUrl();
@@ -1342,7 +1293,7 @@
         'Please review and reply with the next step. Thank you.'
       ].join('\n');
 
-      formStatus.textContent = 'Opening WhatsApp with your formatted request...';
+      formStatus.textContent = 'Opening WhatsApp with your premium formatted request...';
 
       const whatsappUrl = 'https://wa.me/6282234370999?text=' + encodeURIComponent(message);
       window.open(whatsappUrl, '_blank');
@@ -1350,6 +1301,11 @@
   </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
