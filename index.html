@@ -1906,7 +1906,7 @@
         id: params.get('id') || '',
         fileList: []
       } : null;
-      const activeConfig = cfg || compact || fallbackFeatured;
+      const activeConfig = cfg || compact || shortFeatured || fallbackFeatured;
       if (!activeConfig) return;
 
       gateway.classList.add('active');
@@ -2034,6 +2034,7 @@
   </script>
 </body>
 </html>
+
 
 
 
