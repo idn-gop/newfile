@@ -1721,6 +1721,26 @@
       }
     }
 
+    function decodeCompactPayload(raw) {
+      if (!raw) return null;
+      try {
+        const data = JSON.parse(decodeURIComponent(escape(window.atob(raw))));
+        return {
+          fileName: data.n || 'Featured file',
+          fileSize: data.s || 'Unknown size',
+          fileType: data.t || 'FIRMWARE',
+          model: data.m || 'Unknown model',
+          date: data.d || 'Coming soon',
+          downloadLink: data.l || '',
+          id: data.i || '',
+          fileList: []
+        };
+      } catch (error) {
+        console.error('Failed to decode compact payload:', error);
+        return null;
+      }
+    }
+
     function getFileLink(item) {
       if (!item) return '';
       if (item.link) return item.link;
@@ -1873,9 +1893,10 @@
     function renderGatewayFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const cfg = decodeConfigPayload(params.get('cfg'));
+      const compact = decodeCompactPayload(params.get('q'));
       const gateway = document.getElementById('downloadGateway');
       const fallbackLink = params.get('link') || (params.get('id') ? 'https://drive.google.com/file/d/' + params.get('id') + '/view?usp=sharing' : '');
-      const fallbackFeatured = (!cfg && (params.get('name') || fallbackLink || params.get('id'))) ? {
+      const fallbackFeatured = (!cfg && !compact && (params.get('name') || fallbackLink || params.get('id'))) ? {
         fileName: params.get('name') || 'Featured file',
         fileSize: params.get('size') || 'Unknown size',
         fileType: params.get('type') || 'FIRMWARE',
@@ -1885,20 +1906,20 @@
         id: params.get('id') || '',
         fileList: []
       } : null;
-      const activeConfig = cfg || fallbackFeatured;
+      const activeConfig = cfg || compact || fallbackFeatured;
       if (!activeConfig) return;
 
       gateway.classList.add('active');
       document.body.classList.add('has-shared-gateway');
 
       const featured = {
-        name: params.get('name') || activeConfig.fileName || 'Featured file',
-        size: params.get('size') || activeConfig.fileSize || 'Unknown size',
-        type: params.get('type') || activeConfig.fileType || 'FIRMWARE',
-        model: params.get('model') || activeConfig.model || inferModelFromName(params.get('name') || activeConfig.fileName || ''),
-        date: params.get('date') || activeConfig.date || 'Coming soon',
-        link: params.get('link') || getFileLink(activeConfig),
-        id: params.get('id') || activeConfig.id || ''
+        name: compact ? (activeConfig.fileName || 'Featured file') : (params.get('name') || activeConfig.fileName || 'Featured file'),
+        size: compact ? (activeConfig.fileSize || 'Unknown size') : (params.get('size') || activeConfig.fileSize || 'Unknown size'),
+        type: compact ? (activeConfig.fileType || 'FIRMWARE') : (params.get('type') || activeConfig.fileType || 'FIRMWARE'),
+        model: compact ? (activeConfig.model || inferModelFromName(activeConfig.fileName || '')) : (params.get('model') || activeConfig.model || inferModelFromName(params.get('name') || activeConfig.fileName || '')),
+        date: compact ? (activeConfig.date || 'Coming soon') : (params.get('date') || activeConfig.date || 'Coming soon'),
+        link: compact ? getFileLink(activeConfig) : (params.get('link') || getFileLink(activeConfig)),
+        id: compact ? (activeConfig.id || '') : (params.get('id') || activeConfig.id || '')
       };
 
       if (!featured.link && featured.id) {
@@ -2013,6 +2034,7 @@
   </script>
 </body>
 </html>
+
 
 
 
