@@ -1,5 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,6 +19,19 @@
       --shadow: 0 18px 50px rgba(10, 34, 66, 0.12);
       --max: 1220px;
     }
+    [data-theme="dark"] {
+      --bg: #08111d;
+      --surface: #0f1b2d;
+      --surface-alt: #12233b;
+      --text: #eef4ff;
+      --muted: #9eb2cf;
+      --line: #223650;
+      --blue: #4c8dff;
+      --blue-dark: #1b5bcb;
+      --gold: #e3b14c;
+      --success: #28b684;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -29,6 +42,12 @@
         linear-gradient(180deg, #f5f8fc 0%, var(--bg) 100%);
       color: var(--text);
       line-height: 1.6;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    [data-theme="dark"] body {
+      background:
+        radial-gradient(circle at top left, rgba(76, 141, 255, 0.1), transparent 26%),
+        linear-gradient(180deg, #050d17 0%, var(--bg) 100%);
     }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
@@ -40,8 +59,8 @@
       top: 0;
       z-index: 100;
       backdrop-filter: blur(14px);
-      background: rgba(255, 255, 255, 0.88);
-      border-bottom: 1px solid rgba(217, 227, 240, 0.9);
+      background: color-mix(in srgb, var(--surface) 86%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 90%, transparent);
     }
     .nav-inner {
       display: flex;
@@ -82,13 +101,48 @@
       gap: 12px;
       flex-wrap: wrap;
     }
+    .nav-utilities {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 4px;
+    }
+    .nav-tool {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.22s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 18px rgba(12, 34, 60, 0.06);
+    }
+    .nav-tool.lang-tool {
+      width: auto;
+      min-width: 46px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 0.7px;
+    }
+    .nav-tool:hover {
+      border-color: #b8c9de;
+      transform: translateY(-1px);
+    }
     .nav-toggle {
       display: none;
       width: 46px;
       height: 46px;
       border-radius: 14px;
       border: 1px solid var(--line);
-      background: #fff;
+      background: var(--surface);
       color: var(--text);
       align-items: center;
       justify-content: center;
@@ -148,14 +202,10 @@
     .series-card,
     .download-stat,
     .stat,
-    .thumb {
-      transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease, opacity 0.4s ease;
-    }
     .service-card:hover,
     .trust-card:hover,
     .gateway-item:hover,
     .series-card:hover,
-    .thumb:hover,
     .download-stat:hover {
       transform: translateY(-3px);
       box-shadow: 0 18px 38px rgba(12, 34, 60, 0.1);
@@ -185,11 +235,11 @@
     }
     .btn-secondary {
       border-color: var(--line);
-      background: rgba(255, 255, 255, 0.9);
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
       color: var(--text);
     }
     .btn-light {
-      background: #fff;
+      background: var(--surface);
       color: var(--blue-dark);
       font-weight: 900;
     }
@@ -217,12 +267,6 @@
       grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.82fr);
       gap: 18px;
       align-items: stretch;
-    }
-    .hero-copy {
-      padding: 8px 2px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
     }
     .hero-kicker {
       display: inline-flex;
@@ -257,102 +301,85 @@
       flex-wrap: wrap;
       margin-bottom: 18px;
     }
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      max-width: 620px;
-    }
-    .stat {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 22px;
-      padding: 16px 16px 14px;
-      backdrop-filter: blur(10px);
-    }
-    .stat strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-    .stat span {
-      font-size: 12px;
-      line-height: 1.65;
-      color: rgba(255, 255, 255, 0.72);
-    }
-    .hero-showcase {
-      display: grid;
-      gap: 12px;
-      align-content: stretch;
-    }
-    .showcase-main {
-      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 28px;
-      padding: 24px 22px 18px;
-      min-height: 100%;
-      position: relative;
-      overflow: hidden;
+    .hero-copy {
+      padding: 8px 2px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      gap: 18px;
     }
-    .showcase-main::after {
-      content: "";
-      position: absolute;
-      inset: auto -30px -30px auto;
-      width: 150px;
-      height: 150px;
-      background: radial-gradient(circle, rgba(10, 92, 255, 0.26), transparent 70%);
+    .showcase-solo {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
     }
-    .showcase-chip {
-      display: inline-block;
-      align-self: flex-start;
-      padding: 8px 12px;
+    .showcase-solo img {
+      width: min(100%, 360px);
+      max-height: 370px;
+      object-fit: contain;
+      margin: 24px auto 0;
+      display: block;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244,248,255,0.94));
+      border: 1px solid rgba(213, 226, 243, 0.7);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 24px 44px rgba(4, 20, 45, 0.2);
+      animation: heroFloat 7s ease-in-out infinite;
+      transform-origin: center;
+      opacity: 1;
+      transition: opacity 0.65s ease, transform 0.65s ease, background 0.25s ease, border-color 0.25s ease;
+      will-change: opacity, transform;
+    }
+    .showcase-solo img.is-swapping {
+      opacity: 0;
+      transform: scale(0.965);
+    }
+    .hero-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .hero-dot {
+      width: 9px;
+      height: 9px;
       border-radius: 999px;
-      background: rgba(124, 154, 214, 0.18);
-      color: #e7efff;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 18px;
+      border: 0;
+      background: rgba(255,255,255,0.26);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, width 0.2s ease;
     }
-    .showcase-main img {
-      width: 100%;
-      max-width: 300px;
-      height: 276px;
-      object-fit: contain;
-      margin: auto;
-      background: rgba(255,255,255,0.97);
-      border-radius: 4px;
-      padding: 8px;
-      filter: drop-shadow(0 24px 38px rgba(0, 0, 0, 0.24));
+    .hero-dot.active {
+      width: 26px;
+      background: #ffffff;
     }
-    .showcase-thumbs {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+    [data-theme="dark"] .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #eef4ff;
+      border-color: rgba(255, 255, 255, 0.12);
     }
-    .thumb {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      padding: 9px;
-      text-align: center;
-      min-height: 118px;
+    [data-theme="dark"] .btn-outline-light {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.16);
+      color: #f4f8ff;
     }
-    .thumb img {
-      width: 100%;
-      height: 58px;
-      object-fit: contain;
-      margin-bottom: 8px;
-      background: rgba(255,255,255,0.97);
-      border-radius: 2px;
-      padding: 4px;
+    [data-theme="dark"] .showcase-solo img {
+      background: linear-gradient(180deg, rgba(20, 34, 56, 0.98), rgba(13, 25, 42, 0.96));
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 24px 44px rgba(0, 0, 0, 0.28);
     }
-    .thumb span {
-      font-size: 10px;
-      line-height: 1.35;
-      color: rgba(255,255,255,0.78);
-      font-weight: 700;
+    [data-theme="dark"] .hero-dot {
+      background: rgba(255,255,255,0.18);
+    }
+    [data-theme="dark"] .hero-dot.active {
+      background: #d8e6ff;
+    }
+    @keyframes heroFloat {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.018); }
+      100% { transform: translateY(0) scale(1); }
     }
 
     .quick-bar { display: none; }
@@ -503,48 +530,103 @@
     .service-grid,
     .trust-grid { grid-template-columns: repeat(3, 1fr); }
     .faq-grid { grid-template-columns: 1fr 1fr; }
+    .service-card {
+      position: relative;
+      padding: 24px 24px 22px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,251,255,0.94));
+      border: 1px solid rgba(205, 220, 237, 0.82);
+      box-shadow: 0 16px 34px rgba(15, 38, 65, 0.06);
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto auto 24px;
+      width: 46px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), rgba(213, 164, 55, 0));
+      opacity: 0.92;
+    }
     .service-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
+      width: fit-content;
+      min-width: 0;
+      height: auto;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 18px;
-      background: rgba(10, 92, 255, 0.09);
+      padding: 7px 10px;
+      background: rgba(10, 92, 255, 0.07);
       color: var(--blue);
-      font-weight: 900;
-      letter-spacing: 1px;
-      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      font-size: 10px;
+      border: 1px solid rgba(10, 92, 255, 0.1);
     }
     .service-card h3,
     .trust-card h3,
     .faq-card h3 {
-      font-size: 19px;
-      margin-bottom: 8px;
-      letter-spacing: -0.4px;
+      font-size: 22px;
+      line-height: 1.18;
+      margin-bottom: 10px;
+      letter-spacing: -0.7px;
+    }
+    .service-card p {
+      font-size: 14px;
+      line-height: 1.75;
+      max-width: 34ch;
+      margin-bottom: 18px;
     }
     .service-points {
       list-style: none;
       display: grid;
-      gap: 8px;
-      margin-bottom: 18px;
+      gap: 10px;
+      margin-bottom: 22px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(217, 227, 240, 0.72);
     }
     .service-points li {
       font-size: 13px;
-      color: #445166;
-      padding-left: 16px;
+      color: #40506a;
+      padding-left: 18px;
       position: relative;
-      line-height: 1.65;
+      line-height: 1.7;
     }
     .service-points li::before {
       content: '';
-      width: 7px;
-      height: 7px;
+      width: 5px;
+      height: 5px;
       border-radius: 999px;
-      background: var(--blue);
+      background: #9fb5d1;
       position: absolute;
       left: 0;
-      top: 7px;
+      top: 8px;
+    }
+    .service-card .btn {
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 800;
+      align-self: flex-start;
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+    }
+    [data-theme="dark"] .service-card {
+      background: linear-gradient(180deg, rgba(16, 28, 45, 0.96), rgba(12, 22, 36, 0.94));
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
+    }
+    [data-theme="dark"] .service-points {
+      border-top-color: rgba(255, 255, 255, 0.08);
+    }
+    [data-theme="dark"] .service-points li {
+      color: #b1c1d9;
+    }
+    [data-theme="dark"] .service-points li::before {
+      background: #6f8db8;
     }
     .trust-quote { font-size: 14px; color: #334257; margin-bottom: 18px; }
     .trust-meta strong { display: block; font-size: 14px; }
@@ -729,6 +811,246 @@
       line-height: 1.75;
     }
 
+    .download-shell,
+    .workflow-panel,
+    .request-panel,
+    .support-box,
+    .faq-card,
+    .qc-card,
+    .series-card,
+    .download-stat,
+    .gateway-item {
+      border-radius: 24px;
+      border: 1px solid rgba(205, 220, 237, 0.82);
+      box-shadow: 0 16px 34px rgba(15, 38, 65, 0.06);
+    }
+    .workflow-panel,
+    .request-panel,
+    .support-box,
+    .faq-card,
+    .qc-card,
+    .series-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,251,255,0.94));
+    }
+    .workflow-panel,
+    .request-panel,
+    .support-box,
+    .faq-card {
+      padding: 24px;
+    }
+    .workflow-panel,
+    .request-panel {
+      position: relative;
+      overflow: hidden;
+    }
+    .workflow-panel::before,
+    .request-panel::before,
+    .support-box::before,
+    .faq-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto auto 24px;
+      width: 44px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), rgba(213, 164, 55, 0));
+      opacity: 0.92;
+    }
+    .workflow-steps {
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .workflow-steps li {
+      grid-template-columns: 36px 1fr;
+      gap: 14px;
+      padding: 16px 18px;
+      background: rgba(248, 251, 255, 0.92);
+      border: 1px solid rgba(221, 231, 242, 0.88);
+      border-radius: 18px;
+    }
+    .workflow-steps strong {
+      font-size: 15px;
+      letter-spacing: -0.2px;
+    }
+    .workflow-steps span {
+      display: block;
+      margin-top: 4px;
+      line-height: 1.7;
+    }
+    .step-no {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: rgba(10, 92, 255, 0.1);
+      color: var(--blue);
+      font-size: 12px;
+      box-shadow: none;
+    }
+    .request-panel p,
+    .support-intro,
+    .qc-note,
+    .faq-card p {
+      max-width: 62ch;
+    }
+    .request-form {
+      gap: 16px;
+      margin: 20px 0 0;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      border-radius: 14px;
+      border: 1px solid rgba(217, 227, 240, 0.88);
+      background: rgba(251, 253, 255, 0.94);
+      padding: 13px 14px;
+    }
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #8c9aae;
+    }
+    .form-hint,
+    .form-status {
+      font-size: 13px;
+    }
+    .request-actions {
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .series-card,
+    .qc-card,
+    .faq-card details {
+      border-radius: 20px;
+      background: rgba(250, 252, 255, 0.92);
+      border: 1px solid rgba(225, 235, 245, 0.92);
+    }
+    .series-card {
+      padding: 18px 18px 14px;
+    }
+    .series-card h3,
+    .qc-card h3 {
+      font-size: 15px;
+      color: var(--text);
+      letter-spacing: 0;
+      margin-bottom: 14px;
+    }
+    .series-count {
+      background: rgba(10, 92, 255, 0.08);
+      color: var(--blue);
+      border: 1px solid rgba(10, 92, 255, 0.08);
+      font-size: 10px;
+      padding: 5px 9px;
+    }
+    .series-list li,
+    .qc-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(231, 238, 248, 0.88);
+      color: #4a5970;
+    }
+    .support-notes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .support-notes span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(10, 92, 255, 0.06);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(10, 92, 255, 0.08);
+    }
+    .qc-grid {
+      gap: 14px;
+    }
+    .qc-card {
+      padding: 18px;
+    }
+    .faq-card details {
+      padding: 16px 18px;
+    }
+    .faq-card summary {
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .faq-card details p {
+      margin-top: 10px;
+      color: var(--muted);
+    }
+    .cta-panel {
+      border-radius: 28px;
+      padding: 28px 26px;
+      box-shadow: 0 20px 42px rgba(10, 45, 120, 0.16);
+    }
+    .cta-panel .btn-light {
+      background: #f8fbff;
+      color: var(--blue-dark);
+    }
+    .cta-panel .btn-outline-light {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+    }
+    [data-theme="dark"] .download-shell,
+    [data-theme="dark"] .workflow-panel,
+    [data-theme="dark"] .request-panel,
+    [data-theme="dark"] .support-box,
+    [data-theme="dark"] .faq-card,
+    [data-theme="dark"] .qc-card,
+    [data-theme="dark"] .series-card,
+    [data-theme="dark"] .download-stat,
+    [data-theme="dark"] .gateway-item {
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
+    }
+    [data-theme="dark"] .workflow-panel,
+    [data-theme="dark"] .request-panel,
+    [data-theme="dark"] .support-box,
+    [data-theme="dark"] .faq-card,
+    [data-theme="dark"] .qc-card,
+    [data-theme="dark"] .series-card {
+      background: linear-gradient(180deg, rgba(16, 28, 45, 0.96), rgba(12, 22, 36, 0.94));
+    }
+    [data-theme="dark"] .workflow-steps li,
+    [data-theme="dark"] .faq-card details,
+    [data-theme="dark"] .series-card,
+    [data-theme="dark"] .qc-card {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(255,255,255,0.08);
+    }
+    [data-theme="dark"] .step-no {
+      background: rgba(76, 141, 255, 0.14);
+      color: #dce8ff;
+    }
+    [data-theme="dark"] .field input,
+    [data-theme="dark"] .field select,
+    [data-theme="dark"] .field textarea {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+    [data-theme="dark"] .field input::placeholder,
+    [data-theme="dark"] .field textarea::placeholder {
+      color: #7f91aa;
+    }
+    [data-theme="dark"] .series-card h3,
+    [data-theme="dark"] .qc-card h3,
+    [data-theme="dark"] .workflow-steps strong,
+    [data-theme="dark"] .faq-card summary {
+      color: #eef4ff;
+    }
+    [data-theme="dark"] .series-list li,
+    [data-theme="dark"] .qc-list li {
+      color: #adbed6;
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+    [data-theme="dark"] .support-notes span {
+      background: rgba(76, 141, 255, 0.12);
+      border-color: rgba(76, 141, 255, 0.12);
+      color: #dce8ff;
+    }
     .footer {
       background: #08111f;
       color: #fff;
@@ -775,7 +1097,6 @@
       .footer-grid {
         grid-template-columns: 1fr;
       }
-      .showcase-thumbs { grid-template-columns: repeat(4, 1fr); }
       .cta-actions { justify-content: flex-start; }
     }
 
@@ -832,10 +1153,7 @@
       .support-box,
       .faq-card,
       .cta-panel { padding: 18px; }
-      .hero h1 { letter-spacing: -1.4px; }
-      .hero-stats,
-      .showcase-thumbs,
-      .form-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 { letter-spacing: -1.4px; }      .form-grid { grid-template-columns: 1fr 1fr; }
       .qc-grid { grid-template-columns: 1fr; }
       .download-feature {
         gap: 12px;
@@ -866,10 +1184,7 @@
       .btn-outline-light { width: 100%; }
     }
 
-    @media (max-width: 560px) {
-      .hero-stats,
-      .showcase-thumbs,
-      .form-grid { grid-template-columns: 1fr; }
+    @media (max-width: 560px) {      .form-grid { grid-template-columns: 1fr; }
       .container { width: min(calc(100% - 20px), var(--max)); }
       .hero { border-radius: 24px; }
       .download-shell { padding: 16px; }
@@ -895,10 +1210,10 @@
         <span></span>
       </button>
       <div class="nav-actions" id="navActions">
-        <a href="#services" class="nav-link">Services</a>
-        <a href="#models" class="nav-link">Supported Models</a>
-        <a href="#request" class="nav-link">Request</a>
-        <a href="https://wa.me/6282234370999" class="btn btn-primary">WhatsApp Support</a>
+        <a href="#services" class="nav-link" id="navServices">Services</a>
+        <a href="#models" class="nav-link" id="navModels">Supported Models</a>
+        <a href="#request" class="nav-link" id="navRequest">Request</a>
+        <div class="nav-utilities"><button class="nav-tool" id="themeToggle" type="button" aria-label="Toggle theme">&#9790;</button><button class="nav-tool lang-tool" id="langToggle" type="button" aria-label="Toggle language">ID</button></div><a href="https://wa.me/6282234370999" class="btn btn-primary" id="navSupportBtn">WhatsApp Support</a>
       </div>
     </div>
   </nav>
@@ -908,50 +1223,19 @@
       <section class="hero reveal-up">
         <div class="hero-grid">
           <div class="hero-copy">
-            <span class="hero-kicker">Worldwide Remote Service</span>
+            <span class="hero-kicker" id="heroKicker">Worldwide Remote Service</span>
             <h1 id="heroTitle">Premium <em>Honor & Magic</em> download and service gateway for <em>aosunlocker.com</em></h1>
             <p id="heroDescription">AOSUNLOCKER gives technicians, resellers, and serious clients a cleaner way to access featured downloads, request premium files, and connect with a trusted Honor & Magic service gateway.</p>
             <div class="hero-cta">
               <a href="#request" class="btn btn-primary" id="heroPrimaryCta">Start With A Request</a>
               <a href="#models" class="btn btn-secondary" id="heroSecondaryCta">Explore Supported Models</a>
             </div>
-            <div class="hero-stats">
-              <div class="stat">
-                <strong>Remote</strong>
-                <span>Fast workflow for service requests and technician support</span>
-              </div>
-              <div class="stat">
-                <strong>Tested</strong>
-                <span>Service-focused process designed for repeatable handling</span>
-              </div>
-              <div class="stat">
-                <strong>Global</strong>
-                <span>Built to promote your main brand to international customers</span>
-              </div>
-            </div>
+
           </div>
           <div class="hero-showcase">
-            <div class="showcase-main">
+            <div class="showcase-main showcase-solo">
               <span class="showcase-chip" id="heroBadge">Featured Models</span>
-              <img src="assets/HONOR_MAGIC_7_PRO.png" alt="Honor Magic 7 Pro" />
-            </div>
-            <div class="showcase-thumbs">
-              <div class="thumb">
-                <img src="assets/HONOR_MAGIC_7_PRO.png" alt="Magic 7 Pro" />
-                <span>Magic 7 Pro</span>
-              </div>
-              <div class="thumb">
-                <img src="assets/Honor-300-Ultra-1-600x600.png" alt="Honor 300 Ultra" />
-                <span>Honor 300 Ultra</span>
-              </div>
-              <div class="thumb">
-                <img src="assets/honor-magic-v3-officieel-uitg.jpg" alt="Magic V3" />
-                <span>Magic V3</span>
-              </div>
-              <div class="thumb">
-                <img src="assets/honor-200-pro-smartphone-lancement.webp" alt="Honor 200 Pro" />
-                <span>Honor 200 Pro</span>
-              </div>
+              <img id="heroShowcaseImage" src="assets/HONOR_MAGIC_7_PRO.png" alt="Honor Magic 7 Pro" /><div class="hero-dots" id="heroDots"></div>
             </div>
           </div>
         </div>
@@ -1041,71 +1325,41 @@
       </div>
       <div class="service-grid">
         <article class="service-card reveal-up reveal-delay-1">
-          <div class="service-icon">RMT</div>
+          <div class="service-icon">REMOTE</div>
           <h3>Remote Service Access</h3>
-          <p>Offer direct remote support for supported Honor and Magic devices with a more credible and conversion-friendly request flow.</p>
+          <p>Direct technician support for supported Honor and Magic devices, presented in a cleaner and more credible premium flow.</p>
           <ul class="service-points">
-            <li>Ideal for one-off jobs and technician requests</li>
-            <li>Easy to route through WhatsApp or a future intake form</li>
-            <li>Stronger presentation for international buyers</li>
+            <li>Built for one-off service jobs and repeat buyers</li>
+            <li>Cleaner first step than sending visitors into raw chat</li>
+            <li>Better fit for international and reseller-facing requests</li>
           </ul>
           <a href="#request" class="btn btn-secondary">Request Remote Access</a>
         </article>
-        <article class="service-card reveal-up reveal-delay-1">
-          <div class="service-icon">FILE</div>
+        <article class="service-card reveal-up reveal-delay-2">
+          <div class="service-icon">FILES</div>
           <h3>Single File Delivery</h3>
-          <p>Sell specific firmware or board files through a more structured experience that feels more premium than a plain manual chat flow.</p>
+          <p>Structured premium delivery for firmware, board files, and targeted packages that deserve a more polished request experience.</p>
           <ul class="service-points">
-            <li>Perfect for one-time file delivery</li>
-            <li>Cleaner than handling random file messages</li>
-            <li>Pairs well with model-based request intake</li>
+            <li>Ideal for focused package sales and quick delivery</li>
+            <li>Pairs naturally with request forms and WhatsApp handling</li>
+            <li>Keeps file-selling offers clean, direct, and premium</li>
           </ul>
           <a href="#request" class="btn btn-secondary">Request A File</a>
         </article>
-        <article class="service-card reveal-up reveal-delay-1">
-          <div class="service-icon">DRIVE</div>
+        <article class="service-card reveal-up reveal-delay-3">
+          <div class="service-icon">ACCESS</div>
           <h3>Premium Drive Access</h3>
-          <p>Position your premium access package as a serious upsell with stronger brand framing and a more polished landing experience.</p>
+          <p>Position your premium package like a serious service tier, with stronger framing for resellers, repeat technicians, and long-term buyers.</p>
           <ul class="service-points">
-            <li>Best for resellers and repeat technicians</li>
-            <li>Easy to bundle with support and regular updates</li>
-            <li>Creates a stronger premium upsell on-page</li>
+            <li>Best suited for repeat customers and reseller workflows</li>
+            <li>Easy to bundle with updates, support, and private access</li>
+            <li>Turns premium access into a stronger on-page upsell</li>
           </ul>
           <a href="https://wa.me/6282234370999" class="btn btn-secondary">Unlock Premium Access</a>
         </article>
       </div>
     </div>
   </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <span class="section-tag">Trust Signals</span>
-          <h2>Trust builders that make new visitors stay longer</h2>
-          <p>For cold traffic, trust matters almost as much as the product itself. These blocks make the page feel more established, safer, and more worth engaging with.</p>
-        </div>
-      </div>
-      <div class="trust-grid">
-        <article class="trust-card reveal-up reveal-delay-2">
-          <h3>Built For Technicians</h3>
-          <p class="trust-quote">Designed for technicians and repeat buyers who want faster approval flow and less wasted back-and-forth before work begins.</p>
-          <div class="trust-meta"><strong>Best for repeat business</strong><span>Clear intake flow and less messy chat history</span></div>
-        </article>
-        <article class="trust-card reveal-up reveal-delay-2">
-          <h3>Faster Lead Handling</h3>
-          <p class="trust-quote">A more structured intake flow helps you identify the model, service type, and important notes before the chat becomes messy.</p>
-          <div class="trust-meta"><strong>Best for active support teams</strong><span>More structured requests coming into your inbox</span></div>
-        </article>
-        <article class="trust-card reveal-up reveal-delay-2">
-          <h3>Brand Positioning</h3>
-          <p class="trust-quote">This layout feels closer to an official branded service gateway for aosunlocker.com instead of a basic personal seller page.</p>
-          <div class="trust-meta"><strong>Best for global credibility</strong><span>Cleaner copy and stronger brand presentation</span></div>
-        </article>
-      </div>
-    </div>
-  </section>
-
   <section class="section">
     <div class="container">
       <div class="workflow">
@@ -1478,6 +1732,144 @@
       return (name || '').trim().split(/\s+/)[0] || 'Unknown model';
     }
 
+    const SITE_THEME_KEY = 'aos-theme';
+    const SITE_LANG_KEY = 'aos-lang';
+    const siteCopy = {
+      en: {
+        navServices: 'Services',
+        navModels: 'Supported Models',
+        navRequest: 'Request',
+        navSupportBtn: 'WhatsApp Support',
+        heroKicker: 'Worldwide Remote Service',
+        heroTitle: 'Premium <em>Honor & Magic</em> download and service gateway for <em>aosunlocker.com</em>',
+        heroDescription: 'AOSUNLOCKER gives technicians, resellers, and serious clients a cleaner way to access featured downloads, request premium files, and connect with a trusted Honor & Magic service gateway.',
+        heroPrimaryCta: 'Start With A Request',
+        heroSecondaryCta: 'Explore Supported Models',
+        themeLabel: '?',
+        langLabel: 'ID'
+      },
+      id: {
+        navServices: 'Layanan',
+        navModels: 'Model Support',
+        navRequest: 'Request',
+        navSupportBtn: 'WhatsApp Support',
+        heroKicker: 'Layanan Remote Global',
+        heroTitle: 'Gateway download dan layanan <em>Honor & Magic</em> premium untuk <em>aosunlocker.com</em>',
+        heroDescription: 'AOSUNLOCKER membantu teknisi, reseller, dan client serius mengakses download unggulan, request file premium, dan terhubung ke layanan Honor & Magic yang lebih terpercaya.',
+        heroPrimaryCta: 'Mulai Dari Request',
+        heroSecondaryCta: 'Lihat Model Support',
+        themeLabel: '?',
+        langLabel: 'EN'
+      }
+    };
+    const heroSlides = [
+      { src: 'assets/HONOR_MAGIC_7_PRO.png', alt: 'Honor Magic 7 Pro', badge: 'Featured Models' },
+      { src: 'assets/Honor-300-Ultra-1-600x600.png', alt: 'Honor 300 Ultra', badge: 'Featured Models' },
+      { src: 'assets/honor-magic-v3-officieel-uitg.jpg', alt: 'Honor Magic V3', badge: 'Featured Models' },
+      { src: 'assets/honor-200-pro-smartphone-lancement.webp', alt: 'Honor 200 Pro', badge: 'Featured Models' },
+      { src: 'assets/OIP.webp', alt: 'Honor Showcase', badge: 'Featured Models' }
+    ];
+
+    function renderHeroDots(activeIndex) {
+      const dotsWrap = document.getElementById('heroDots');
+      if (!dotsWrap) return;
+      dotsWrap.innerHTML = heroSlides.map(function (_, index) {
+        return '<button class="hero-dot' + (index === activeIndex ? ' active' : '') + '" type="button" data-index="' + index + '" aria-label="Show slide ' + (index + 1) + '"></button>';
+      }).join('');
+    }
+
+    function initHeroRotator() {
+      const heroImage = document.getElementById('heroShowcaseImage');
+      const heroBadge = document.getElementById('heroBadge');
+      const dotsWrap = document.getElementById('heroDots');
+      if (!heroImage || heroSlides.length < 2) return;
+
+      let currentIndex = 0;
+      let intervalId;
+
+      function showSlide(index) {
+        currentIndex = index;
+        const nextSlide = heroSlides[currentIndex];
+        heroImage.classList.add('is-swapping');
+        window.setTimeout(function () {
+          heroImage.src = nextSlide.src;
+          heroImage.alt = nextSlide.alt;
+          if (heroBadge && heroBadge.textContent !== 'Shared Premium Download Page') {
+            heroBadge.textContent = nextSlide.badge;
+          }
+          heroImage.classList.remove('is-swapping');
+          renderHeroDots(currentIndex);
+        }, 320);
+      }
+
+      function startRotation() {
+        intervalId = window.setInterval(function () {
+          showSlide((currentIndex + 1) % heroSlides.length);
+        }, 3200);
+      }
+
+      renderHeroDots(currentIndex);
+      if (dotsWrap) {
+        dotsWrap.addEventListener('click', function (event) {
+          const dot = event.target.closest('[data-index]');
+          if (!dot) return;
+          window.clearInterval(intervalId);
+          showSlide(Number(dot.dataset.index));
+          startRotation();
+        });
+      }
+      startRotation();
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        themeToggle.innerHTML = theme === 'dark' ? '&#9728;' : '&#9790;';
+      }
+      localStorage.setItem(SITE_THEME_KEY, theme);
+    }
+
+    function applyLanguage(lang) {
+      const copy = siteCopy[lang] || siteCopy.en;
+      document.documentElement.lang = lang === 'id' ? 'id' : 'en';
+      if (!document.body.classList.contains('has-shared-gateway')) {
+        document.getElementById('heroKicker').textContent = copy.heroKicker;
+        document.getElementById('heroTitle').innerHTML = copy.heroTitle;
+        document.getElementById('heroDescription').textContent = copy.heroDescription;
+        document.getElementById('heroPrimaryCta').textContent = copy.heroPrimaryCta;
+        document.getElementById('heroSecondaryCta').textContent = copy.heroSecondaryCta;
+      }
+      document.getElementById('navServices').textContent = copy.navServices;
+      document.getElementById('navModels').textContent = copy.navModels;
+      document.getElementById('navRequest').textContent = copy.navRequest;
+      document.getElementById('navSupportBtn').textContent = copy.navSupportBtn;
+      const langToggle = document.getElementById('langToggle');
+      if (langToggle) langToggle.textContent = copy.langLabel;
+      localStorage.setItem(SITE_LANG_KEY, lang);
+    }
+
+    function initPreferenceToggles() {
+      const savedTheme = localStorage.getItem(SITE_THEME_KEY) || 'light';
+      const savedLang = localStorage.getItem(SITE_LANG_KEY) || 'en';
+      applyTheme(savedTheme);
+      applyLanguage(savedLang);
+
+      const themeToggle = document.getElementById('themeToggle');
+      const langToggle = document.getElementById('langToggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+          const nextTheme = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark';
+          applyTheme(nextTheme);
+        });
+      }
+      if (langToggle) {
+        langToggle.addEventListener('click', function () {
+          const nextLang = (localStorage.getItem(SITE_LANG_KEY) || 'en') === 'en' ? 'id' : 'en';
+          applyLanguage(nextLang);
+        });
+      }
+    }
     function renderGatewayFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const cfg = decodeConfigPayload(params.get('cfg'));
@@ -1584,6 +1976,8 @@
     }
 
     renderGatewayFromUrl();
+    initPreferenceToggles();
+    initHeroRotator();
 
     serviceRequestForm.addEventListener('submit', function (event) {
       event.preventDefault();
@@ -1619,6 +2013,20 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
