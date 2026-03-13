@@ -481,6 +481,57 @@
       color: var(--success);
     }
     .download-side { display: grid; gap: 12px; }
+    .recent-ticker {
+      display: none;
+      margin-bottom: 16px;
+      border: 1px solid rgba(205, 220, 237, 0.82);
+      background: rgba(255,255,255,0.72);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(15, 38, 65, 0.06);
+    }
+    .recent-ticker.active { display: block; }
+    .recent-ticker-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px 0;
+    }
+    .recent-ticker-head strong {
+      font-size: 13px;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
+    }
+    .recent-ticker-marquee {
+      overflow: hidden;
+      padding: 10px 0 14px;
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+    .recent-ticker-track {
+      display: flex;
+      width: max-content;
+      gap: 28px;
+      padding-left: 16px;
+      animation: recentTicker 24s linear infinite;
+    }
+    .recent-ticker:hover .recent-ticker-track {
+      animation-play-state: paused;
+    }
+    .recent-ticker-item {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .recent-ticker-item::before {
+      content: '\2022';
+      color: var(--accent);
+      margin-right: 10px;
+    }
+    @keyframes recentTicker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
     .download-stat,
     .gateway-item,
     .workflow-steps li,
@@ -1001,6 +1052,17 @@
     [data-theme="dark"] .qc-card,
     [data-theme="dark"] .series-card,
     [data-theme="dark"] .download-stat,
+    [data-theme="dark"] .recent-ticker {
+      background: rgba(9, 15, 28, 0.86);
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
+    }
+    [data-theme="dark"] .recent-ticker-head strong {
+      color: #eef4ff;
+    }
+    [data-theme="dark"] .recent-ticker-item {
+      color: #9fb2d4;
+    }
     [data-theme="dark"] .gateway-item {
       border-color: rgba(255,255,255,0.08);
       box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
@@ -1307,6 +1369,14 @@
               <strong>Sharing tip</strong>
               <span>Landing links open this package page first, with the highlighted file and recent files together.</span>
             </div>
+          </div>
+        </div>
+        <div class="recent-ticker" id="recentTicker">
+          <div class="recent-ticker-head">
+            <strong>Recent Files</strong>
+          </div>
+          <div class="recent-ticker-marquee">
+            <div class="recent-ticker-track" id="recentTickerTrack"></div>
           </div>
         </div>
         <div class="gateway-list" id="gatewayList"></div>
@@ -1975,6 +2045,18 @@
 
       const fileList = Array.isArray(activeConfig.fileList) ? activeConfig.fileList : [];
       document.getElementById('downloadCount').textContent = fileList.length + ' recent files available';
+      const ticker = document.getElementById('recentTicker');
+      const tickerTrack = document.getElementById('recentTickerTrack');
+      if (fileList.length) {
+        const tickerItems = fileList.map(function (item) {
+          return '<span class="recent-ticker-item">' + (item.name || 'Unnamed file') + '</span>';
+        }).join('');
+        tickerTrack.innerHTML = tickerItems + tickerItems;
+        ticker.classList.add('active');
+      } else {
+        tickerTrack.innerHTML = '';
+        ticker.classList.remove('active');
+      }
       const listEl = document.getElementById('gatewayList');
       listEl.innerHTML = fileList.map(function (item, index) {
         const itemLink = getFileLink(item);
