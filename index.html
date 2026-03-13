@@ -1201,7 +1201,7 @@
         <div class="brand-box">H</div>
         <div class="brand-copy">
           <strong>AOSUNLOCKER</strong>
-          <span>Official Honor & Magic Service Gateway</span>
+          <span>Honor & Magic Service Solutions</span>
         </div>
       </div>
       <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navActions">
@@ -1243,20 +1243,20 @@
 
       <div class="quick-bar section">
         <div class="quick-item">
-          <strong>Official Promo Direction</strong>
-          <span>Designed to support your main site brand, not just act like a basic seller page.</span>
+          <strong>Service Focus</strong>
+          <span>Focused on remote service, file requests, and premium access.</span>
         </div>
         <div class="quick-item">
-          <strong>Clear Conversion Flow</strong>
-          <span>Visitors can go from discovering the service to submitting a request in one page.</span>
+          <strong>Direct Contact</strong>
+          <span>Visitors can move from file discovery to WhatsApp support without extra steps.</span>
         </div>
         <div class="quick-item">
-          <strong>Professional Trust Layer</strong>
-          <span>Cleaner copy, stronger structure, and better service presentation for global visitors.</span>
+          <strong>Fast Handling</strong>
+          <span>Built for technicians, resellers, and repeat clients who need quick handling.</span>
         </div>
         <div class="quick-item">
-          <strong>Ready for Expansion</strong>
-          <span>You can later connect this to a real form, Sheets, email, or dashboard flow.</span>
+          <strong>Flexible Setup</strong>
+          <span>The page can be adapted for direct chat, request forms, or download sharing.</span>
         </div>
       </div>
     </div>
@@ -1320,7 +1320,7 @@
         <div>
           <span class="section-tag">Core Services</span>
           <h2>Three strong offers for a cleaner conversion funnel</h2>
-          <p>Instead of sending people into an unstructured chat, this layout presents AOSUNLOCKER like a proper premium service brand with clearer offer paths.</p>
+          <p>Choose the service you need and continue with the most relevant support path.</p>
         </div>
       </div>
       <div class="service-grid">
@@ -1392,7 +1392,7 @@
               <div class="step-no">4</div>
               <div>
                 <strong>Continue via WhatsApp or future system</strong>
-                <span>This keeps the landing page useful now while staying ready for a more advanced dashboard or automation later.</span>
+                <span>This keeps the process simple today while leaving room for more advanced handling later.</span>
               </div>
             </li>
           </ol>
@@ -1653,7 +1653,7 @@
           </details>
           <details>
             <summary>Can this be used as a promo page for ads or social traffic?</summary>
-            <p>Yes. This layout is much better suited for traffic from Facebook, WhatsApp, Telegram, or direct links than a basic unstructured landing page.</p>
+            <p>Yes. This page works well for traffic from Facebook, WhatsApp, Telegram, and direct shares.</p>
           </details>
           <details>
             <summary>Can we add auto-saving later?</summary>
@@ -1670,7 +1670,7 @@
         <div>
           <span class="section-tag" style="color:#d6e4ff;">Main Conversion CTA</span>
           <h2>Turn every shared link into a stronger AOSUNLOCKER sales touchpoint</h2>
-          <p>This landing page is already stronger for direct sharing. The next premium upgrade is connecting requests to email, Google Sheets, or a dashboard so every lead is captured automatically.</p>
+          <p>For direct sharing, this page gives visitors a clearer path to request support, files, or premium access.</p>
         </div>
         <div class="cta-actions">
           <a href="https://wa.me/6282234370999" class="btn btn-light">Speak With Us</a>
@@ -1685,7 +1685,7 @@
       <div class="footer-grid">
         <div>
           <h4>AOSUNLOCKER</h4>
-          <p>Premium promotional landing page for Honor & Magic remote services, file delivery, and premium access offers.</p>
+          <p>Remote service, file delivery, and premium access for supported Honor and Magic devices.</p>
         </div>
         <div>
           <h4>Service Focus</h4>
@@ -1703,7 +1703,7 @@
           <p>Working hours: 09:00 - 22:00 (GMT+7)</p>
         </div>
       </div>
-      <div class="footer-bottom">&copy; 2026 AOSUNLOCKER. Built as a branded conversion landing page for the main service.</div>
+      <div class="footer-bottom">&copy; 2026 AOSUNLOCKER. All rights reserved.</div>
     </div>
   </footer>
 
@@ -1894,9 +1894,22 @@
       const params = new URLSearchParams(window.location.search);
       const cfg = decodeConfigPayload(params.get('cfg'));
       const compact = decodeCompactPayload(params.get('q'));
+      const shortId = params.get('f') || '';
+      const shortLink = params.get('l') || '';
+      const shortModel = params.get('m') || '';
       const gateway = document.getElementById('downloadGateway');
-      const fallbackLink = params.get('link') || (params.get('id') ? 'https://drive.google.com/file/d/' + params.get('id') + '/view?usp=sharing' : '');
-      const fallbackFeatured = (!cfg && !compact && (params.get('name') || fallbackLink || params.get('id'))) ? {
+      const fallbackLink = shortLink || params.get('link') || (params.get('id') ? 'https://drive.google.com/file/d/' + params.get('id') + '/view?usp=sharing' : '') || (shortId ? 'https://drive.google.com/file/d/' + shortId + '/view?usp=sharing' : '');
+      const shortFeatured = (!cfg && !compact && (shortId || shortLink)) ? {
+        fileName: 'Featured file',
+        fileSize: 'Unknown size',
+        fileType: 'FIRMWARE',
+        model: shortModel || 'Unknown model',
+        date: 'Coming soon',
+        downloadLink: fallbackLink,
+        id: shortId,
+        fileList: []
+      } : null;
+      const fallbackFeatured = (!cfg && !compact && !shortFeatured && (params.get('name') || fallbackLink || params.get('id'))) ? {
         fileName: params.get('name') || 'Featured file',
         fileSize: params.get('size') || 'Unknown size',
         fileType: params.get('type') || 'FIRMWARE',
@@ -1934,7 +1947,7 @@
       document.getElementById('featuredSize').textContent = 'Size: ' + featured.size;
       document.getElementById('featuredType').textContent = 'Type: ' + featured.type;
       document.getElementById('featuredDate').textContent = 'Date: ' + featured.date;
-      document.getElementById('featuredSource').textContent = featured.link ? 'Ready to open from this branded landing page' : 'Link is still pending in the shared data';
+      document.getElementById('featuredSource').textContent = featured.link ? 'Ready to open from this page' : 'Link is still pending in the shared data';
 
       const waNumber = '6282234370999';
       const waText = encodeURIComponent('Hello AOSUNLOCKER,%0A%0AI want the password and support for this file:%0A' + featured.name + '%0AModel: ' + featured.model + '%0ADate: ' + featured.date + '%0A%0APlease send the password and access details.');
@@ -1952,7 +1965,7 @@
 
       document.getElementById('heroBadge').textContent = 'Shared Premium Download Page';
       document.getElementById('heroTitle').innerHTML = 'Premium package for <em>' + featured.model + '</em> is ready on <em>AOSUNLOCKER</em>';
-      document.getElementById('heroDescription').textContent = 'This shared landing page was generated for a targeted file request, so visitors see the featured package first and still browse the related downloads below.';
+      document.getElementById('heroDescription').textContent = 'This page opens the requested package first and still shows related downloads below.';
       document.getElementById('heroPrimaryCta').textContent = 'Download Now';
       document.getElementById('heroPrimaryCta').href = featured.link || '#';
       document.getElementById('heroPrimaryCta').target = '_blank';
@@ -2034,6 +2047,10 @@
   </script>
 </body>
 </html>
+
+
+
+
 
 
 
