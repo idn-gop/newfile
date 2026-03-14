@@ -607,7 +607,7 @@
       display: grid;
       gap: 14px;
     }
-    .gateway-list,
+    .gateway-list { grid-template-columns: 1fr; }
     .series-grid { grid-template-columns: repeat(2, 1fr); }
     .service-grid,
     .trust-grid { grid-template-columns: repeat(3, 1fr); }
@@ -2010,20 +2010,28 @@
         const safeSize = escapeHtml(item.size || 'Size on request');
         const safeDate = escapeHtml(item.date || 'Update available');
         const safeType = escapeHtml(item.type || 'FIRMWARE');
-        return '<article class="gateway-item reveal-up reveal-delay-' + ((index % 3) + 1) + '">' +
-          '<div class="gateway-item-icon">AOS</div>' +
-          '<div class="gateway-item-body">' +
-            '<div class="gateway-item-topline"><span class="gateway-badge">Recent File</span><span class="gateway-badge">' + safeType + '</span></div>' +
-            '<h4>' + safeName + '</h4>' +
-            '<p class="gateway-item-subtitle">Clean package delivery with direct access and updated catalog details.</p>' +
-            '<div class="gateway-item-meta">' +
-              '<strong>' + safeModel + '</strong>' +
+        const badgeStyle = 'display:inline-flex;align-items:center;min-height:24px;padding:0 10px;border-radius:8px;background:#1bb8f4;color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;';
+        const metaStyle = 'display:flex;flex-wrap:wrap;gap:10px 14px;color:#667892;font-size:13px;line-height:1.5;';
+        const cardStyle = 'display:grid;grid-template-columns:92px minmax(0,1fr) auto;align-items:center;gap:20px;padding:22px 24px;border-radius:22px;border:1px solid rgba(220,230,242,.92);background:linear-gradient(180deg,rgba(255,255,255,.99),rgba(249,251,255,.97));box-shadow:0 14px 30px rgba(15,38,65,.05);';
+        const iconStyle = 'display:flex;align-items:center;justify-content:center;width:92px;height:92px;border-radius:22px;border:1px solid rgba(222,232,245,.92);background:linear-gradient(180deg,#fff,#eef4fb);color:#d14343;font-size:27px;font-weight:800;letter-spacing:.04em;';
+        const actionStyle = 'display:inline-flex;align-items:center;justify-content:center;min-width:152px;min-height:48px;padding:0 20px;border-radius:12px;background:#ef5b43;color:#fff;text-decoration:none;font-weight:700;border:1px solid #ef5b43;';
+        return '<article class="gateway-item reveal-up reveal-delay-' + ((index % 3) + 1) + '" style="' + cardStyle + '">' +
+          '<div class="gateway-item-icon" style="' + iconStyle + '">AOS</div>' +
+          '<div class="gateway-item-body" style="min-width:0;">' +
+            '<div class="gateway-item-topline" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">' +
+              '<span class="gateway-badge" style="' + badgeStyle + '">Recent File</span>' +
+              '<span class="gateway-badge" style="' + badgeStyle + '">' + safeType + '</span>' +
+            '</div>' +
+            '<h4 style="margin:0 0 8px;color:#13233d;font-size:18px;font-weight:800;line-height:1.35;letter-spacing:-.02em;word-break:break-word;">' + safeName + '</h4>' +
+            '<p class="gateway-item-subtitle" style="margin:0 0 12px;color:#71819a;font-size:14px;line-height:1.65;word-break:break-word;">Clean package delivery with direct access and updated catalog details.</p>' +
+            '<div class="gateway-item-meta" style="' + metaStyle + '">' +
+              '<strong style="display:inline;color:#ef5b43;font-size:13px;font-weight:700;margin:0;">' + safeModel + '</strong>' +
               '<span>Date: ' + safeDate + '</span>' +
               '<span>Size: ' + safeSize + '</span>' +
             '</div>' +
           '</div>' +
-          '<div class="gateway-item-action">' +
-            '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer">' + (itemLink ? 'Download Now' : 'Link Pending') + '</a>' +
+          '<div class="gateway-item-action" style="display:flex;justify-content:flex-end;align-self:center;">' +
+            '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer" style="' + actionStyle + '">' + (itemLink ? 'Download Now' : 'Link Pending') + '</a>' +
           '</div>' +
         '</article>';
       }).join('');
@@ -2387,6 +2395,7 @@
   </script>
 </body>
 </html>
+
 
 
 
