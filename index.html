@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -484,50 +484,80 @@
     .download-side { display: grid; gap: 12px; }
     .recent-ticker {
       display: none;
-      margin-bottom: 16px;
-      border: 1px solid rgba(205, 220, 237, 0.82);
-      background: rgba(255,255,255,0.72);
-      border-radius: 20px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(205, 220, 237, 0.88);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,249,255,0.95));
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 12px 28px rgba(15, 38, 65, 0.06);
+      box-shadow: 0 16px 34px rgba(15, 38, 65, 0.08);
     }
-    .recent-ticker.active { display: block; }
+    .recent-ticker.active,
+    .recent-ticker.static { display: block; }
     .recent-ticker-head {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 12px 16px 0;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid rgba(205, 220, 237, 0.7);
     }
     .recent-ticker-head strong {
       font-size: 13px;
+      font-weight: 700;
       color: var(--text-main);
-      letter-spacing: -0.2px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .recent-ticker-head span {
+      font-size: 12px;
+      color: var(--text-muted);
     }
     .recent-ticker-marquee {
       overflow: hidden;
-      padding: 10px 0 14px;
-      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      padding: 12px 0 14px;
+      mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+    }
+    .recent-ticker.static .recent-ticker-marquee {
+      mask-image: none;
+      -webkit-mask-image: none;
     }
     .recent-ticker-track {
       display: flex;
       width: max-content;
-      gap: 28px;
-      padding-left: 16px;
-      animation: recentTicker 24s linear infinite;
+      gap: 14px;
+      padding-left: 18px;
+      animation: recentTicker 26s linear infinite;
+    }
+    .recent-ticker.static .recent-ticker-track {
+      width: auto;
+      padding-right: 18px;
+      animation: none;
     }
     .recent-ticker:hover .recent-ticker-track {
       animation-play-state: paused;
     }
     .recent-ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(16, 31, 56, 0.05);
+      color: var(--text-main);
       font-size: 13px;
-      color: var(--text-muted);
+      font-weight: 600;
       white-space: nowrap;
     }
     .recent-ticker-item::before {
-      content: '\2022';
-      color: var(--accent);
-      margin-right: 10px;
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #5f98ff);
+      box-shadow: 0 0 0 4px rgba(34, 91, 255, 0.12);
+      flex: 0 0 auto;
     }
     @keyframes recentTicker {
       from { transform: translateX(0); }
@@ -1058,15 +1088,45 @@
       border-color: rgba(255,255,255,0.08);
       box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
     }
+    [data-theme="dark"] .recent-ticker-head {
+      border-color: rgba(255,255,255,0.08);
+    }
     [data-theme="dark"] .recent-ticker-head strong {
       color: #eef4ff;
     }
-    [data-theme="dark"] .recent-ticker-item {
+    [data-theme="dark"] .recent-ticker-head span {
       color: #9fb2d4;
     }
+    [data-theme="dark"] .recent-ticker-item {
+      color: #d9e5ff;
+      background: rgba(255,255,255,0.05);
+    }
     [data-theme="dark"] .gateway-item {
+      background: linear-gradient(180deg, rgba(16, 28, 45, 0.96), rgba(12, 22, 36, 0.94));
       border-color: rgba(255,255,255,0.08);
       box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
+    }
+    [data-theme="dark"] .gateway-item-icon {
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border-color: rgba(255,255,255,0.08);
+      color: #d9e5ff;
+    }
+    [data-theme="dark"] .gateway-badge {
+      background: rgba(76, 141, 255, 0.14);
+      color: #d9e5ff;
+    }
+    [data-theme="dark"] .gateway-item h4 {
+      color: #eef4ff;
+    }
+    [data-theme="dark"] .gateway-item-subtitle,
+    [data-theme="dark"] .gateway-item-meta {
+      color: #9fb2d4;
+    }
+    [data-theme="dark"] .gateway-item-meta strong {
+      color: #8fb4ff;
+    }
+    [data-theme="dark"] .gateway-item-meta span + span::before {
+      background: rgba(255,255,255,0.22);
     }
     [data-theme="dark"] .workflow-panel,
     [data-theme="dark"] .request-panel,
@@ -1235,8 +1295,37 @@
         font-size: 10px;
         padding: 8px 10px;
       }
-      .download-password {
-        padding: 12px 13px;
+      .gateway-item {
+        grid-template-columns: 1fr;
+        justify-items: flex-start;
+        gap: 14px;
+        padding: 18px;
+      }
+      .gateway-item-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        font-size: 28px;
+      }
+      .gateway-item h4 {
+        font-size: 20px;
+      }
+      .gateway-item-action {
+        width: 100%;
+      }
+      .gateway-item-action .btn {
+        width: 100%;
+        min-width: 0;
+      }
+      .recent-ticker-head {
+        padding: 14px 16px 10px;
+      }
+      .recent-ticker-track {
+        gap: 10px;
+        padding-left: 16px;
+      }
+      .recent-ticker.static .recent-ticker-track {
+        padding-right: 16px;
       }
       .series-list { columns: 1; }
       .series-card h3 { align-items: flex-start; }
@@ -1822,22 +1911,57 @@
     function inferModelFromName(name) {
       return (name || '').trim().split(/\s+/)[0] || 'Unknown model';
     }
-
+    function formatDisplayDate(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return 'Update available';
+      const isoDate = new Date(raw);
+      if (!Number.isNaN(isoDate.getTime())) {
+        const day = String(isoDate.getDate()).padStart(2, '0');
+        const month = String(isoDate.getMonth() + 1).padStart(2, '0');
+        const year = isoDate.getFullYear();
+        return day + '-' + month + '-' + year;
+      }
+      const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (match) return match[3] + '-' + match[2] + '-' + match[1];
+      return raw;
+    }
+    function formatDisplaySize(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return 'Size on request';
+      return raw
+        .replace(/\s+/g, ' ')
+        .replace(/(\d)\s*gb/ig, ' GB')
+        .replace(/(\d)\s*mb/ig, ' MB')
+        .replace(/(\d)\s*kb/ig, ' KB')
+        .replace(/(\d)\s*tb/ig, ' TB');
+    }
+    function formatDisplayModel(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return 'Honor / Magic';
+      return raw.toUpperCase();
+    }
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
     const REMOTE_CATALOG_ENDPOINT = (document.querySelector('meta[name="aos-catalog-endpoint"]')?.getAttribute('content') || '').trim();
-
     function normalizeCatalogItem(item) {
       if (!item) return null;
+      const name = String(item.name || item.fileName || '').trim() || 'Premium package';
       return {
-        name: item.name || item.fileName || 'Unnamed file',
-        size: item.size || item.fileSize || 'Unknown size',
-        type: item.type || item.fileType || 'FIRMWARE',
-        model: item.model || inferModelFromName(item.name || item.fileName || ''),
-        date: item.date || 'Coming soon',
+        name: name,
+        size: formatDisplaySize(item.size || item.fileSize || ''),
+        type: String(item.type || item.fileType || 'FIRMWARE').trim().toUpperCase(),
+        model: formatDisplayModel(item.model || inferModelFromName(name)),
+        date: formatDisplayDate(item.date || ''),
         link: item.link || item.downloadLink || '',
         id: item.id || ''
       };
     }
-
     function normalizeRemoteCatalog(payload) {
       if (!payload) return null;
       const fileList = Array.isArray(payload.fileList) ? payload.fileList.map(normalizeCatalogItem).filter(Boolean) : [];
@@ -1856,27 +1980,50 @@
     }
 
     function renderRecentFiles(fileList) {
-      const safeList = Array.isArray(fileList) ? fileList : [];
+      const safeList = Array.isArray(fileList) ? fileList.map(normalizeCatalogItem).filter(Boolean) : [];
       document.getElementById('downloadCount').textContent = safeList.length + ' recent files available';
       const ticker = document.getElementById('recentTicker');
       const tickerTrack = document.getElementById('recentTickerTrack');
-      if (safeList.length) {
+      const tickerNote = document.getElementById('recentTickerNote');
+      if (tickerNote) {
+        tickerNote.textContent = safeList.length > 1 ? 'Auto-updated catalog stream' : 'Latest package ready to open';
+      }
+      ticker.classList.remove('active', 'static');
+      if (safeList.length > 1) {
         const tickerItems = safeList.map(function (item) {
-          return '<span class="recent-ticker-item">' + (item.name || 'Unnamed file') + '</span>';
+          return '<span class="recent-ticker-item">' + escapeHtml(item.name || 'Premium package') + '</span>';
         }).join('');
         tickerTrack.innerHTML = tickerItems + tickerItems;
         ticker.classList.add('active');
+      } else if (safeList.length === 1) {
+        tickerTrack.innerHTML = '<span class="recent-ticker-item">' + escapeHtml(safeList[0].name || 'Premium package') + '</span>';
+        ticker.classList.add('static');
       } else {
         tickerTrack.innerHTML = '';
-        ticker.classList.remove('active');
       }
       const listEl = document.getElementById('gatewayList');
       listEl.innerHTML = safeList.map(function (item, index) {
         const itemLink = getFileLink(item);
+        const safeName = escapeHtml(item.name || 'Premium package');
+        const safeModel = escapeHtml(item.model || 'Honor / Magic');
+        const safeSize = escapeHtml(item.size || 'Size on request');
+        const safeDate = escapeHtml(item.date || 'Update available');
+        const safeType = escapeHtml(item.type || 'FIRMWARE');
         return '<article class="gateway-item reveal-up reveal-delay-' + ((index % 3) + 1) + '">' +
-          '<h4>' + (item.name || 'Unnamed file') + '</h4>' +
-          '<p>Model: ' + (item.model || '-') + ' | Size: ' + (item.size || '-') + ' | Date: ' + (item.date || '-') + '</p>' +
-          '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer">' + (itemLink ? 'Open Package' : 'Package Pending') + '</a>' +
+          '<div class="gateway-item-icon">AOS</div>' +
+          '<div class="gateway-item-body">' +
+            '<div class="gateway-item-topline"><span class="gateway-badge">Recent File</span><span class="gateway-badge">' + safeType + '</span></div>' +
+            '<h4>' + safeName + '</h4>' +
+            '<p class="gateway-item-subtitle">Clean package delivery with direct access and updated catalog details.</p>' +
+            '<div class="gateway-item-meta">' +
+              '<strong>' + safeModel + '</strong>' +
+              '<span>Date: ' + safeDate + '</span>' +
+              '<span>Size: ' + safeSize + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="gateway-item-action">' +
+            '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer">' + (itemLink ? 'Download Now' : 'Link Pending') + '</a>' +
+          '</div>' +
         '</article>';
       }).join('');
     }
@@ -1934,6 +2081,46 @@
       return true;
     }
 
+    async function fetchRemoteCatalog() {
+      if (!REMOTE_CATALOG_ENDPOINT) return null;
+      try {
+        const response = await fetch(REMOTE_CATALOG_ENDPOINT, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Remote catalog request failed with status ' + response.status);
+        const payload = await response.json();
+        return normalizeRemoteCatalog(payload);
+      } catch (error) {
+        console.error('Failed to fetch remote catalog:', error);
+        return null;
+      }
+    }
+    function hydrateFocusedConfig(activeConfig, remoteCatalog) {
+      if (!activeConfig) return activeConfig;
+      if (!remoteCatalog) return activeConfig;
+      const candidates = [];
+      if (activeConfig.id) candidates.push(String(activeConfig.id).trim());
+      const currentLink = getFileLink(activeConfig);
+      if (currentLink) candidates.push(String(currentLink).trim());
+      if (activeConfig.model) candidates.push(String(activeConfig.model).trim().toUpperCase());
+      const remoteList = Array.isArray(remoteCatalog.fileList) ? remoteCatalog.fileList : [];
+      const matched = remoteList.find(function (item) {
+        const itemCandidates = [String(item.id || '').trim(), String(getFileLink(item) || '').trim(), String(item.model || '').trim().toUpperCase()];
+        return candidates.some(function (candidate) {
+          return candidate && itemCandidates.includes(candidate);
+        });
+      });
+      const source = matched || normalizeCatalogItem(remoteCatalog);
+      if (!source) return activeConfig;
+      return {
+        fileName: activeConfig.fileName && activeConfig.fileName !== 'Featured file' && activeConfig.fileName !== 'Premium package' ? activeConfig.fileName : source.name,
+        fileSize: activeConfig.fileSize && activeConfig.fileSize !== 'Unknown size' && activeConfig.fileSize !== 'Size on request' ? activeConfig.fileSize : source.size,
+        fileType: activeConfig.fileType && activeConfig.fileType !== 'FIRMWARE' ? activeConfig.fileType : source.type,
+        model: activeConfig.model && activeConfig.model !== 'Unknown model' && activeConfig.model !== 'Honor / Magic' ? activeConfig.model : source.model,
+        date: activeConfig.date && activeConfig.date !== 'Coming soon' && activeConfig.date !== 'Update available' ? activeConfig.date : source.date,
+        downloadLink: activeConfig.downloadLink || source.link || getFileLink(source),
+        id: activeConfig.id || source.id || '',
+        fileList: remoteList.length ? remoteList : (Array.isArray(activeConfig.fileList) ? activeConfig.fileList : [])
+      };
+    }
     async function loadHomepageCatalog() {
       if (!REMOTE_CATALOG_ENDPOINT) return false;
       try {
@@ -2091,7 +2278,7 @@
         });
       }
     }
-    function renderGatewayFromUrl() {
+    async function renderGatewayFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const cfg = decodeConfigPayload(params.get('cfg'));
       const compact = decodeCompactPayload(params.get('q'));
@@ -2100,38 +2287,44 @@
       const shortModel = params.get('m') || '';
       const fallbackLink = shortLink || params.get('link') || (params.get('id') ? 'https://drive.google.com/file/d/' + params.get('id') + '/view?usp=sharing' : '') || (shortId ? 'https://drive.google.com/file/d/' + shortId + '/view?usp=sharing' : '');
       const shortFeatured = (!cfg && !compact && (shortId || shortLink)) ? {
-        fileName: 'Featured file',
-        fileSize: 'Unknown size',
+        fileName: 'Premium package',
+        fileSize: '',
         fileType: 'FIRMWARE',
-        model: shortModel || 'Unknown model',
-        date: 'Coming soon',
+        model: shortModel || '',
+        date: '',
         downloadLink: fallbackLink,
         id: shortId,
         fileList: []
       } : null;
       const fallbackFeatured = (!cfg && !compact && !shortFeatured && (params.get('name') || fallbackLink || params.get('id'))) ? {
-        fileName: params.get('name') || 'Featured file',
-        fileSize: params.get('size') || 'Unknown size',
+        fileName: params.get('name') || 'Premium package',
+        fileSize: params.get('size') || '',
         fileType: params.get('type') || 'FIRMWARE',
-        model: params.get('model') || 'Unknown model',
-        date: params.get('date') || 'Coming soon',
+        model: params.get('model') || '',
+        date: params.get('date') || '',
         downloadLink: fallbackLink,
         id: params.get('id') || '',
         fileList: []
       } : null;
-      const activeConfig = cfg || compact || shortFeatured || fallbackFeatured;
+      let activeConfig = cfg || compact || shortFeatured || fallbackFeatured;
       if (!activeConfig) return false;
       const normalized = {
-        fileName: compact ? (activeConfig.fileName || 'Featured file') : (params.get('name') || activeConfig.fileName || 'Featured file'),
-        fileSize: compact ? (activeConfig.fileSize || 'Unknown size') : (params.get('size') || activeConfig.fileSize || 'Unknown size'),
+        fileName: compact ? (activeConfig.fileName || 'Premium package') : (params.get('name') || activeConfig.fileName || 'Premium package'),
+        fileSize: compact ? (activeConfig.fileSize || '') : (params.get('size') || activeConfig.fileSize || ''),
         fileType: compact ? (activeConfig.fileType || 'FIRMWARE') : (params.get('type') || activeConfig.fileType || 'FIRMWARE'),
         model: compact ? (activeConfig.model || inferModelFromName(activeConfig.fileName || '')) : (params.get('model') || activeConfig.model || inferModelFromName(params.get('name') || activeConfig.fileName || '')),
-        date: compact ? (activeConfig.date || 'Coming soon') : (params.get('date') || activeConfig.date || 'Coming soon'),
+        date: compact ? (activeConfig.date || '') : (params.get('date') || activeConfig.date || ''),
         downloadLink: compact ? getFileLink(activeConfig) : (params.get('link') || getFileLink(activeConfig)),
         id: compact ? (activeConfig.id || '') : (params.get('id') || activeConfig.id || ''),
         fileList: Array.isArray(activeConfig.fileList) ? activeConfig.fileList : []
       };
-      return applyGatewayConfig(normalized, { sharedMode: true, scrollOnLoad: true });
+      if ((!cfg && !compact) || !normalized.fileList.length || !normalized.fileSize || !normalized.date) {
+        const remoteCatalog = await fetchRemoteCatalog();
+        activeConfig = hydrateFocusedConfig(normalized, remoteCatalog);
+      } else {
+        activeConfig = normalized;
+      }
+      return applyGatewayConfig(activeConfig, { sharedMode: true, scrollOnLoad: true });
     }
 
     const navbar = document.querySelector('.navbar');
@@ -2192,6 +2385,11 @@
   </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
