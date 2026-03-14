@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="aos-catalog-endpoint" content="https://script.google.com/macros/s/AKfycbyYBU1vKLyfELNUILqFZHpM9dzsQSsP6L_ptnZq8AngTDP01pfrq6jalE_d1CufNGdE/exec" />
   <title>AOSUNLOCKER | Honor & Magic Remote Service</title>
   <style>
     :root {
@@ -1822,6 +1823,136 @@
       return (name || '').trim().split(/\s+/)[0] || 'Unknown model';
     }
 
+    const REMOTE_CATALOG_ENDPOINT = (document.querySelector('meta[name="aos-catalog-endpoint"]')?.getAttribute('content') || '').trim();
+
+    function normalizeCatalogItem(item) {
+      if (!item) return null;
+      return {
+        name: item.name || item.fileName || 'Unnamed file',
+        size: item.size || item.fileSize || 'Unknown size',
+        type: item.type || item.fileType || 'FIRMWARE',
+        model: item.model || inferModelFromName(item.name || item.fileName || ''),
+        date: item.date || 'Coming soon',
+        link: item.link || item.downloadLink || '',
+        id: item.id || ''
+      };
+    }
+
+    function normalizeRemoteCatalog(payload) {
+      if (!payload) return null;
+      const fileList = Array.isArray(payload.fileList) ? payload.fileList.map(normalizeCatalogItem).filter(Boolean) : [];
+      const featuredItem = normalizeCatalogItem(payload.featured || fileList[0] || payload);
+      if (!featuredItem || !featuredItem.name) return null;
+      return {
+        fileName: payload.fileName || payload.title || featuredItem.name,
+        fileSize: payload.fileSize || featuredItem.size,
+        fileType: payload.fileType || featuredItem.type,
+        model: payload.model || featuredItem.model,
+        date: payload.date || featuredItem.date,
+        downloadLink: payload.downloadLink || featuredItem.link || getFileLink(featuredItem),
+        id: payload.id || featuredItem.id || '',
+        fileList
+      };
+    }
+
+    function renderRecentFiles(fileList) {
+      const safeList = Array.isArray(fileList) ? fileList : [];
+      document.getElementById('downloadCount').textContent = safeList.length + ' recent files available';
+      const ticker = document.getElementById('recentTicker');
+      const tickerTrack = document.getElementById('recentTickerTrack');
+      if (safeList.length) {
+        const tickerItems = safeList.map(function (item) {
+          return '<span class="recent-ticker-item">' + (item.name || 'Unnamed file') + '</span>';
+        }).join('');
+        tickerTrack.innerHTML = tickerItems + tickerItems;
+        ticker.classList.add('active');
+      } else {
+        tickerTrack.innerHTML = '';
+        ticker.classList.remove('active');
+      }
+      const listEl = document.getElementById('gatewayList');
+      listEl.innerHTML = safeList.map(function (item, index) {
+        const itemLink = getFileLink(item);
+        return '<article class="gateway-item reveal-up reveal-delay-' + ((index % 3) + 1) + '">' +
+          '<h4>' + (item.name || 'Unnamed file') + '</h4>' +
+          '<p>Model: ' + (item.model || '-') + ' | Size: ' + (item.size || '-') + ' | Date: ' + (item.date || '-') + '</p>' +
+          '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer">' + (itemLink ? 'Open Package' : 'Package Pending') + '</a>' +
+        '</article>';
+      }).join('');
+    }
+
+    function applyGatewayConfig(activeConfig, options = {}) {
+      if (!activeConfig) return false;
+      const gateway = document.getElementById('downloadGateway');
+      const featured = normalizeCatalogItem({
+        name: activeConfig.fileName || activeConfig.name || 'Featured file',
+        size: activeConfig.fileSize || activeConfig.size || 'Unknown size',
+        type: activeConfig.fileType || activeConfig.type || 'FIRMWARE',
+        model: activeConfig.model || inferModelFromName(activeConfig.fileName || activeConfig.name || ''),
+        date: activeConfig.date || 'Coming soon',
+        link: activeConfig.link || activeConfig.downloadLink || '',
+        id: activeConfig.id || ''
+      });
+      if (!featured.link && featured.id) featured.link = 'https://drive.google.com/file/d/' + featured.id + '/view?usp=sharing';
+      gateway.classList.add('active');
+      document.body.classList.toggle('has-shared-gateway', Boolean(options.sharedMode));
+      document.getElementById('gatewayHeading').textContent = featured.name;
+      document.getElementById('gatewayDescription').textContent = options.gatewayDescription || 'Open the highlighted package below or browse the recent files in the list.';
+      document.getElementById('featuredName').textContent = featured.name;
+      document.getElementById('featuredDescription').textContent = options.featuredDescription || 'Open this package directly, or browse the recent files below if you need another version.';
+      document.getElementById('featuredModel').textContent = 'Model: ' + featured.model;
+      document.getElementById('featuredSize').textContent = 'Size: ' + featured.size;
+      document.getElementById('featuredType').textContent = 'Type: ' + featured.type;
+      document.getElementById('featuredDate').textContent = 'Date: ' + featured.date;
+      document.getElementById('featuredSource').textContent = options.sourceLabel || (featured.link ? 'Ready to open from this page' : 'Link is still pending in the shared data');
+      const waNumber = '6282234370999';
+      const waText = encodeURIComponent('Hello AOSUNLOCKER,%0A%0AI want the password and support for this file:%0A' + featured.name + '%0AModel: ' + featured.model + '%0ADate: ' + featured.date + '%0A%0APlease send the password and access details.');
+      const waLink = 'https://wa.me/' + waNumber + '?text=' + waText;
+      const featuredBtn = document.getElementById('featuredDownloadBtn');
+      featuredBtn.href = featured.link || '#';
+      featuredBtn.textContent = featured.link ? 'Download Now' : 'Link Not Available';
+      document.getElementById('featuredSupportBtn').href = waLink;
+      document.getElementById('featuredPasswordBtn').href = waLink;
+      if (options.sharedMode) {
+        document.getElementById('heroBadge').textContent = 'Package Download Page';
+        document.getElementById('heroTitle').innerHTML = 'Premium package for <em>' + featured.model + '</em> is ready on <em>AOSUNLOCKER</em>';
+        document.getElementById('heroDescription').textContent = 'Open the requested package first, then browse recent files below.';
+        document.getElementById('heroPrimaryCta').textContent = 'Download Now';
+        document.getElementById('heroPrimaryCta').href = featured.link || '#';
+        document.getElementById('heroPrimaryCta').target = '_blank';
+        document.getElementById('heroPrimaryCta').rel = 'noopener noreferrer';
+        document.getElementById('heroSecondaryCta').textContent = 'View Recent Files';
+        document.getElementById('heroSecondaryCta').href = '#downloadGateway';
+      }
+      renderRecentFiles(Array.isArray(activeConfig.fileList) ? activeConfig.fileList.map(normalizeCatalogItem).filter(Boolean) : []);
+      if (options.scrollOnLoad) {
+        window.requestAnimationFrame(function () {
+          gateway.classList.add('gateway-pulse');
+          gateway.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+      return true;
+    }
+
+    async function loadHomepageCatalog() {
+      if (!REMOTE_CATALOG_ENDPOINT) return false;
+      try {
+        const response = await fetch(REMOTE_CATALOG_ENDPOINT, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Remote catalog request failed with status ' + response.status);
+        const payload = await response.json();
+        const catalog = normalizeRemoteCatalog(payload);
+        if (!catalog) return false;
+        return applyGatewayConfig(catalog, {
+          sharedMode: false,
+          scrollOnLoad: false,
+          sourceLabel: 'Latest catalog loaded from server'
+        });
+      } catch (error) {
+        console.error('Failed to load remote catalog:', error);
+        return false;
+      }
+    }
+
     const SITE_THEME_KEY = 'aos-theme';
     const SITE_LANG_KEY = 'aos-lang';
     const siteCopy = {
@@ -1967,7 +2098,6 @@
       const shortId = params.get('f') || '';
       const shortLink = params.get('l') || '';
       const shortModel = params.get('m') || '';
-      const gateway = document.getElementById('downloadGateway');
       const fallbackLink = shortLink || params.get('link') || (params.get('id') ? 'https://drive.google.com/file/d/' + params.get('id') + '/view?usp=sharing' : '') || (shortId ? 'https://drive.google.com/file/d/' + shortId + '/view?usp=sharing' : '');
       const shortFeatured = (!cfg && !compact && (shortId || shortLink)) ? {
         fileName: 'Featured file',
@@ -1990,87 +2120,18 @@
         fileList: []
       } : null;
       const activeConfig = cfg || compact || shortFeatured || fallbackFeatured;
-      if (!activeConfig) return;
-
-      gateway.classList.add('active');
-      document.body.classList.add('has-shared-gateway');
-
-      const featured = {
-        name: compact ? (activeConfig.fileName || 'Featured file') : (params.get('name') || activeConfig.fileName || 'Featured file'),
-        size: compact ? (activeConfig.fileSize || 'Unknown size') : (params.get('size') || activeConfig.fileSize || 'Unknown size'),
-        type: compact ? (activeConfig.fileType || 'FIRMWARE') : (params.get('type') || activeConfig.fileType || 'FIRMWARE'),
+      if (!activeConfig) return false;
+      const normalized = {
+        fileName: compact ? (activeConfig.fileName || 'Featured file') : (params.get('name') || activeConfig.fileName || 'Featured file'),
+        fileSize: compact ? (activeConfig.fileSize || 'Unknown size') : (params.get('size') || activeConfig.fileSize || 'Unknown size'),
+        fileType: compact ? (activeConfig.fileType || 'FIRMWARE') : (params.get('type') || activeConfig.fileType || 'FIRMWARE'),
         model: compact ? (activeConfig.model || inferModelFromName(activeConfig.fileName || '')) : (params.get('model') || activeConfig.model || inferModelFromName(params.get('name') || activeConfig.fileName || '')),
         date: compact ? (activeConfig.date || 'Coming soon') : (params.get('date') || activeConfig.date || 'Coming soon'),
-        link: compact ? getFileLink(activeConfig) : (params.get('link') || getFileLink(activeConfig)),
-        id: compact ? (activeConfig.id || '') : (params.get('id') || activeConfig.id || '')
+        downloadLink: compact ? getFileLink(activeConfig) : (params.get('link') || getFileLink(activeConfig)),
+        id: compact ? (activeConfig.id || '') : (params.get('id') || activeConfig.id || ''),
+        fileList: Array.isArray(activeConfig.fileList) ? activeConfig.fileList : []
       };
-
-      if (!featured.link && featured.id) {
-        featured.link = 'https://drive.google.com/file/d/' + featured.id + '/view?usp=sharing';
-      }
-
-      document.getElementById('gatewayHeading').textContent = featured.name;
-      document.getElementById('gatewayDescription').textContent = 'Open the highlighted package below or browse the recent files in the list.';
-      document.getElementById('featuredName').textContent = featured.name;
-      document.getElementById('featuredDescription').textContent = 'Open this package directly, or browse the recent files below if you need another version.';
-      document.getElementById('featuredModel').textContent = 'Model: ' + featured.model;
-      document.getElementById('featuredSize').textContent = 'Size: ' + featured.size;
-      document.getElementById('featuredType').textContent = 'Type: ' + featured.type;
-      document.getElementById('featuredDate').textContent = 'Date: ' + featured.date;
-      document.getElementById('featuredSource').textContent = featured.link ? 'Ready to open from this page' : 'Link is still pending in the shared data';
-
-      const waNumber = '6282234370999';
-      const waText = encodeURIComponent('Hello AOSUNLOCKER,%0A%0AI want the password and support for this file:%0A' + featured.name + '%0AModel: ' + featured.model + '%0ADate: ' + featured.date + '%0A%0APlease send the password and access details.');
-      const waLink = 'https://wa.me/' + waNumber + '?text=' + waText;
-
-      const featuredBtn = document.getElementById('featuredDownloadBtn');
-      featuredBtn.href = featured.link || '#';
-      featuredBtn.textContent = featured.link ? 'Download Now' : 'Link Not Available';
-
-      const supportBtn = document.getElementById('featuredSupportBtn');
-      supportBtn.href = waLink;
-
-      const passwordBtn = document.getElementById('featuredPasswordBtn');
-      passwordBtn.href = waLink;
-
-      document.getElementById('heroBadge').textContent = 'Package Download Page';
-      document.getElementById('heroTitle').innerHTML = 'Premium package for <em>' + featured.model + '</em> is ready on <em>AOSUNLOCKER</em>';
-      document.getElementById('heroDescription').textContent = 'Open the requested package first, then browse recent files below.';
-      document.getElementById('heroPrimaryCta').textContent = 'Download Now';
-      document.getElementById('heroPrimaryCta').href = featured.link || '#';
-      document.getElementById('heroPrimaryCta').target = '_blank';
-      document.getElementById('heroPrimaryCta').rel = 'noopener noreferrer';
-      document.getElementById('heroSecondaryCta').textContent = 'View Recent Files';
-      document.getElementById('heroSecondaryCta').href = '#downloadGateway';
-
-      const fileList = Array.isArray(activeConfig.fileList) ? activeConfig.fileList : [];
-      document.getElementById('downloadCount').textContent = fileList.length + ' recent files available';
-      const ticker = document.getElementById('recentTicker');
-      const tickerTrack = document.getElementById('recentTickerTrack');
-      if (fileList.length) {
-        const tickerItems = fileList.map(function (item) {
-          return '<span class="recent-ticker-item">' + (item.name || 'Unnamed file') + '</span>';
-        }).join('');
-        tickerTrack.innerHTML = tickerItems + tickerItems;
-        ticker.classList.add('active');
-      } else {
-        tickerTrack.innerHTML = '';
-        ticker.classList.remove('active');
-      }
-      const listEl = document.getElementById('gatewayList');
-      listEl.innerHTML = fileList.map(function (item, index) {
-        const itemLink = getFileLink(item);
-        return '<article class="gateway-item reveal-up reveal-delay-' + ((index % 3) + 1) + '">' +
-          '<h4>' + (item.name || 'Unnamed file') + '</h4>' +
-          '<p>Model: ' + (item.model || '-') + ' | Size: ' + (item.size || '-') + ' | Date: ' + (item.date || '-') + '</p>' +
-          '<a class="btn btn-secondary" href="' + (itemLink || '#') + '" target="_blank" rel="noopener noreferrer">' + (itemLink ? 'Open Package' : 'Package Pending') + '</a>' +
-        '</article>';
-      }).join('');
-
-      window.requestAnimationFrame(function () {
-        gateway.classList.add('gateway-pulse');
-        gateway.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+      return applyGatewayConfig(normalized, { sharedMode: true, scrollOnLoad: true });
     }
 
     const navbar = document.querySelector('.navbar');
@@ -2090,8 +2151,10 @@
         });
       });
     }
-
-    renderGatewayFromUrl();
+    const hasSharedGateway = renderGatewayFromUrl();
+    if (!hasSharedGateway) {
+      loadHomepageCatalog();
+    }
     initPreferenceToggles();
     initHeroRotator();
 
