@@ -1464,6 +1464,7 @@
         <div class="recent-ticker" id="recentTicker">
           <div class="recent-ticker-head">
             <strong>Recent Files</strong>
+            <span id="recentTickerNote">Latest package ready to open</span>
           </div>
           <div class="recent-ticker-marquee">
             <div class="recent-ticker-track" id="recentTickerTrack"></div>
@@ -2344,12 +2345,13 @@
         });
       });
     }
-    const hasSharedGateway = renderGatewayFromUrl();
-    if (!hasSharedGateway) {
-      loadHomepageCatalog();
-    }
-    initPreferenceToggles();
-    initHeroRotator();
+    renderGatewayFromUrl().then(function (hasSharedGateway) {
+      if (!hasSharedGateway) {
+        loadHomepageCatalog();
+      }
+      initPreferenceToggles();
+      initHeroRotator();
+    });
 
     serviceRequestForm.addEventListener('submit', function (event) {
       event.preventDefault();
@@ -2385,6 +2387,9 @@
   </script>
 </body>
 </html>
+
+
+
 
 
 
